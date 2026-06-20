@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All-Time Leaderboard | UniPrep Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-dark: #060d1f;
+        --border-light: rgba(96, 165, 250, 0.15);
+        --accent-primary: #3b82f6;
+        --accent-gold: #fbbf24;
+        --text-main: #f0f6ff;
+        --text-muted: rgba(191, 219, 254, 0.6);
+      }
+      body {
+        font-family: 'Outfit', sans-serif;
+        background: var(--bg-dark);
+        color: var(--text-main);
+        margin: 0;
+        display: flex;
+        min-height: 100vh;
+        background-image: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(37,99,235,0.1) 0%, transparent 80%);
+      }
+      .main-content {
+        flex: 1;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .leaderboard-container {
+        width: 100%;
+        max-width: 800px;
+        background: rgba(15, 25, 55, 0.7);
+        border: 1px solid var(--border-light);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(20px);
+      }
+      .leaderboard-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 32px;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 24px;
+      }
+      .leaderboard-title {
+        font-size: 2rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(135deg, #60a5fa, #fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .leaderboard-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .leaderboard-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 16px;
+        padding: 16px 24px;
+        transition: transform 0.2s, background 0.2s;
+      }
+      .leaderboard-item:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .rank-1 { border-color: rgba(251,191,36,0.5); background: rgba(251, 191, 36, 0.08); }
+      .rank-2 { border-color: rgba(148,163,184,0.5); background: rgba(148, 163, 184, 0.08); }
+      .rank-3 { border-color: rgba(180,83,9,0.5); background: rgba(180, 83, 9, 0.08); }
+      
+      .item-left { display: flex; align-items: center; gap: 20px; }
+      .item-rank { font-size: 1.5rem; font-weight: 800; width: 40px; text-align: center; }
+      .rank-1 .item-rank { color: var(--accent-gold); }
+      .rank-2 .item-rank { color: #cbd5e1; }
+      .rank-3 .item-rank { color: #d97706; }
+      
+      .item-user { display: flex; align-items: center; gap: 16px; }
+      .item-avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid rgba(255,255,255,0.1); }
+      .item-name { font-size: 1.2rem; font-weight: 700; color: #fff; }
+      .item-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+      
+      .item-right { text-align: right; }
+      .item-score { font-size: 1.5rem; font-weight: 800; color: #60a5fa; font-family: monospace; }
+      .item-score-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+
+      .back-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-light);
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: inherit;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .back-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(96,165,250,0.3); }
+      
+      @media (max-width: 768px) {
+        .main-content { padding: 20px; }
+        .leaderboard-container { padding: 20px; }
+      }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <div class="leaderboard-container">
+            <div class="leaderboard-header">
+                <div class="leaderboard-title">
+                    <span>🏆</span> Discussion Leaderboard
+                </div>
+                <a href="#" class="back-btn" onclick="window.close(); return false;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Close
+                </a>
+            </div>
+
+            <div class="leaderboard-list" id="lb-list">
+                <!-- Dynamically loaded -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lbList = document.getElementById('lb-list');
+            
+            // Read the localStorage 'up_discussion_leaderboard'
+            let leaderboardData = {};
+            try {
+                leaderboardData = JSON.parse(localStorage.getItem('up_discussion_leaderboard')) || {};
+            } catch(e) {
+                console.error("Could not parse leaderboard data");
+            }
+
+            const sortedUsers = Object.values(leaderboardData).sort((a, b) => b.score - a.score);
+
+            lbList.innerHTML = '';
+            if (sortedUsers.length === 0) {
+                lbList.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-muted); font-weight:600;">No scores recorded yet. Participate in discussions to earn points!</div>';
+                return;
+            }
+
+            sortedUsers.forEach((user, idx) => {
+                const rank = idx + 1;
+                let rankClass = '';
+                if (rank === 1) rankClass = 'rank-1';
+                else if (rank === 2) rankClass = 'rank-2';
+                else if (rank === 3) rankClass = 'rank-3';
+
+                const avatarInitials = (user.name || 'S').substring(0, 2).toUpperCase();
+
+                const html = `
+                    <div class="leaderboard-item ${rankClass}">
+                        <div class="item-left">
+                            <div class="item-rank">${rank}</div>
+                            <div class="item-user">
+                                <div class="item-avatar">${avatarInitials}</div>
+                                <div>
+                                    <div class="item-name">${user.name}</div>
+                                    <div class="item-subtitle">Discussion Participant</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item-right">
+                            <div class="item-score">${user.score}</div>
+                            <div class="item-score-label">Points</div>
+                        </div>
+                    </div>
+                `;
+                lbList.insertAdjacentHTML('beforeend', html);
+            });
+        });
+    </script>
+</body>
+</html>

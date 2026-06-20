@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <script>
+    (function(){
+      if(window._initialLoaderAdded)return;window._initialLoaderAdded=true;
+      document.documentElement.style.backgroundColor='#060d1f';
+      var l=document.createElement('div');
+      l.id='global-initial-loader';
+      l.style.cssText='position:fixed;inset:0;background:#060d1f;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;';
+      l.innerHTML='<style>@keyframes spa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes spa-glow-pulse{0%,100%{box-shadow:0 0 15px rgba(6,182,212,0.4),inset 0 0 10px rgba(37,99,235,0.4)}50%{box-shadow:0 0 30px rgba(6,182,212,0.8),inset 0 0 20px rgba(37,99,235,0.8)}}.spa-spinner{width:70px;height:70px;border:4px solid rgba(255,255,255,0.1);border-top-color:#06b6d4;border-right-color:#3b82f6;border-radius:50%;animation:spa-spin 1s linear infinite,spa-glow-pulse 2s ease-in-out infinite;margin-bottom:24px;position:relative}.spa-spinner::after{content:"";position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border-radius:50%;border:4px solid transparent;border-bottom-color:rgba(6,182,212,0.5);animation:spa-spin 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite reverse}.spa-loading-text{font-family:"Outfit",sans-serif;font-size:15px;font-weight:700;letter-spacing:4px;text-transform:uppercase;background:linear-gradient(135deg,#fff,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:spa-pulse-text 1.5s ease-in-out infinite}@keyframes spa-pulse-text{0%,100%{opacity:0.6;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}</style><div class="spa-spinner"></div><div class="spa-loading-text">Loading</div>';
+      document.documentElement.appendChild(l);
+      window.addEventListener('load',function(){
+        l.style.opacity='0';
+        setTimeout(function(){if(l.parentNode)l.remove();},500);
+      });
+    })();
+  </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="UniPrep — Exam Trivial: Challenge your mind with bouncing-ball quiz games!" />
+    <meta name="theme-color" content="#060d1f" />
+    <title>Exam Trivial | UniPrep</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="../dashboard/dashboard.css" />
+    <link rel="stylesheet" href="exam_trival.css" />
+    <script src="../side_nav_bar/side_nav_bar.js"></script>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════════ -->
+
+
+
+
+    <!-- ═══════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════ -->
+    <div class="main-wrapper">
+
+        <!-- Mobile top-bar with hamburger -->
+        <header class="trv-topbar" id="trv-topbar">
+            <button class="hamburger-btn" id="sidebar-menu-toggle" aria-label="Open navigation">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+            </button>
+            <span class="trv-topbar-title">⭐ Exam Trivial</span>
+        </header>
+
+        <main class="page-content" id="page-content">
+
+            <!-- ── TRIVIAL LIST VIEW ── -->
+            <div class="trivial-list-view" id="trivial-list-view">
+                <div class="tl-content">
+                    <div class="tl-stats-bar">
+                        <div class="tl-stat">
+                            <span class="tl-stat-num" id="tl-total">0</span>
+                            <span class="tl-stat-label">Trivials</span>
+                        </div>
+                        <div class="tl-stat">
+                            <span class="tl-stat-num" id="tl-completed">0</span>
+                            <span class="tl-stat-label">Completed</span>
+                        </div>
+                        <div class="tl-stat">
+                            <span class="tl-stat-num" id="tl-new">0</span>
+                            <span class="tl-stat-label">New</span>
+                        </div>
+                    </div>
+                    <h1 class="tl-title-main">⭐ Exam Trivial</h1>
+                    <p class="tl-sub-main">Challenge your mind — catch the correct answer balls to score!</p>
+                    <div class="tl-grid" id="trivial-card-grid">
+                        <div class="tl-loading">Loading trivials...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── START SCREEN ── -->
+            <div class="start-screen-overlay" id="start-view" style="display: none;">
+                <div class="start-box">
+                    <div class="start-icon" id="ts-icon">🧠</div>
+                    <h2 class="start-title" id="trivial-detail-title">Trivial Name</h2>
+                    <p class="start-desc" id="trivial-detail-desc">Trivial description goes here.</p>
+
+                    <ul class="rules-list" id="ts-rules">
+                        <li>⏱️ Time Limit: <strong id="rule-time">3:00 minutes</strong></li>
+                        <li>🎯 Scoring: <strong>+10</strong> correct, <strong style="color: #ef4444;">-5</strong> wrong
+                        </li>
+                    </ul>
+
+                    <button class="btn-start-now" id="btn-start-game">Enter Trivial Arena</button>
+                    <button class="btn-back-overlay" id="btn-back-list">← Back to Trivials</button>
+                </div>
+            </div>
+
+            <!-- ── GAME ARENA ── -->
+            <div class="trivial-game-view" id="game-view" style="display: none;">
+                <header class="game-header">
+                    <button class="btn-quit" id="btn-quit" title="Quit Game">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6" />
+                        </svg>
+                    </button>
+
+                    <div class="timer-box" id="timer-box">
+                        <span class="tb-icon">⏳</span>
+                        <span class="tb-time" id="time-display">03:00</span>
+                    </div>
+
+                    <div class="score-box" id="score-box">
+                        <span class="sb-label">Score</span>
+                        <span class="sb-val" id="score-display">0</span>
+                    </div>
+                </header>
+
+                <div class="question-container">
+                    <h2 class="question-text" id="question-text">Loading question...</h2>
+                </div>
+
+                <div class="arena" id="arena"></div>
+                <div class="feedback-pop" id="feedback-pop"></div>
+            </div>
+
+            <!-- ── RESULTS SCREEN ── -->
+            <div class="trivial-result-view" id="result-view" style="display: none;">
+                <div class="result-box">
+                    <div class="res-icon" id="res-icon">🏆</div>
+                    <h1 class="res-title" id="res-title">Time's Up!</h1>
+                    <p class="res-sub" id="res-sub-text">Here is how you performed:</p>
+                    <div class="res-score-circle">
+                        <span class="rsc-label">Final Score</span>
+                        <span class="rsc-val" id="final-score">0</span>
+                    </div>
+                    <div class="res-stats">
+                        <div class="rst-item"><span class="rst-val correct" id="res-correct">0</span> Correct</div>
+                        <div class="rst-item"><span class="rst-val wrong" id="res-wrong">0</span> Wrong</div>
+                    </div>
+                    <div class="res-actions">
+                        <button class="btn-start-game" id="btn-play-again">Play Again</button>
+                        <button class="btn-back-list" id="btn-back-from-result">← Back to Trivials</button>
+                    </div>
+                </div>
+
+                <!-- ── REVIEW SECTION ── -->
+                <div class="review-wrapper" id="review-section" style="display: none;"></div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Background Effects -->
+    <div class="bg-fixed"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <script src="../../js/router.js"></script>
+    <script src="exam_trival.js"></script>
+</body>
+
+</html>

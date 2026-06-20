@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script>
+        (function () {
+            if (window._initialLoaderAdded) return; window._initialLoaderAdded = true;
+            document.documentElement.style.backgroundColor = '#060d1f';
+            var l = document.createElement('div');
+            l.id = 'global-initial-loader';
+            l.style.cssText = 'position:fixed;inset:0;background:#060d1f;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;';
+            l.innerHTML = '<style>@keyframes spa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes spa-glow-pulse{0%,100%{box-shadow:0 0 15px rgba(6,182,212,0.4),inset 0 0 10px rgba(37,99,235,0.4)}50%{box-shadow:0 0 30px rgba(6,182,212,0.8),inset 0 0 20px rgba(37,99,235,0.8)}}.spa-spinner{width:70px;height:70px;border:4px solid rgba(255,255,255,0.1);border-top-color:#06b6d4;border-right-color:#3b82f6;border-radius:50%;animation:spa-spin 1s linear infinite,spa-glow-pulse 2s ease-in-out infinite;margin-bottom:24px;position:relative}.spa-spinner::after{content:"";position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border-radius:50%;border:4px solid transparent;border-bottom-color:rgba(6,182,212,0.5);animation:spa-spin 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite reverse}.spa-loading-text{font-family:"Outfit",sans-serif;font-size:15px;font-weight:700;letter-spacing:4px;text-transform:uppercase;background:linear-gradient(135deg,#fff,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:spa-pulse-text 1.5s ease-in-out infinite}@keyframes spa-pulse-text{0%,100%{opacity:0.6;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}</style><div class="spa-spinner"></div><div class="spa-loading-text">Loading</div>';
+            document.documentElement.appendChild(l);
+            window.addEventListener('load', function () {
+                l.style.opacity = '0';
+                setTimeout(function () { if (l.parentNode) l.remove(); }, 500);
+            });
+        })();
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="UniPrep — Exam Simulation" />
+    <title>Exam Prep | UniPrep</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="exam_prep.css" />
+    <script src="../side_nav_bar/side_nav_bar.js"></script>
+</head>
+
+<body>
+
+    <!-- Background Effects -->
+    <div class="bg-fixed"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-bg"></div>
+
+    <!-- All page content in main-wrapper -->
+    <div class="main-wrapper">
+
+        <!-- ══════════════════════════════
+       START EXAM OVERLAY
+    ══════════════════════════════ -->
+        <div class="start-screen-overlay" id="start-screen-overlay">
+            <div class="start-box glass-panel">
+                <div class="start-icon">⏳</div>
+                <h2 class="start-title">Ready to Begin?</h2>
+                <p class="start-desc" id="start-desc-text">Loading exam details...</p>
+                <button class="btn-primary" id="btn-start-now">Start Exam & Begin Timer</button>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════
+       SUBMIT CONFIRMATION MODAL
+    ══════════════════════════════ -->
+        <div class="modal-overlay" id="submit-modal">
+            <div class="modal-box glass-panel">
+                <div class="modal-icon">📋</div>
+                <h3 class="modal-title">Submit Exam?</h3>
+                <div class="modal-summary" id="modal-summary"></div>
+                <p class="modal-note">You cannot change your answers after submitting.</p>
+                <div class="modal-actions">
+                    <button class="btn-secondary" id="modal-cancel">Review Answers</button>
+                    <button class="btn-primary" id="modal-confirm">Submit Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════
+       RESULT SCREEN
+    ══════════════════════════════ -->
+        <div class="result-screen" id="result-screen">
+            <div class="result-card glass-panel">
+                <div class="result-emoji" id="result-emoji">🎉</div>
+                <h2 class="result-title" id="result-title">Exam Submitted!</h2>
+                <div class="result-score-ring">
+                    <svg viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(96,165,250,0.2)" stroke-width="10" />
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="url(#scoreGrad)" stroke-width="10"
+                            stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" id="score-ring-circle"
+                            transform="rotate(-90 60 60)" />
+                        <defs>
+                            <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#06b6d4" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="result-score-text">
+                        <span class="result-score-num" id="result-score-num">0</span>
+                        <span class="result-score-label" id="result-score-total">/ 20</span>
+                    </div>
+                </div>
+                <div class="result-stats">
+                    <div class="result-stat correct-stat">
+                        <span class="rs-num" id="rs-correct">0</span>
+                        <span class="rs-label">Correct</span>
+                    </div>
+                    <div class="result-stat wrong-stat">
+                        <span class="rs-num" id="rs-wrong">0</span>
+                        <span class="rs-label">Wrong</span>
+                    </div>
+                    <div class="result-stat skip-stat">
+                        <span class="rs-num" id="rs-skipped">0</span>
+                        <span class="rs-label">Skipped</span>
+                    </div>
+                </div>
+                <p class="result-message" id="result-message">Your exam has been saved successfully!</p>
+                <p class="result-sub-message">You can review your answers and see corrections below.</p>
+                <div class="result-actions">
+                    <button class="btn-secondary review-btn" id="result-review-btn">Review Answers</button>
+                    <a href="../dashboard/dashboard.html" class="btn-primary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════
+       QUESTION NAVIGATOR DRAWER (MOBILE)
+    ══════════════════════════════ -->
+        <div class="nav-drawer-overlay" id="nav-drawer-overlay"></div>
+        <div class="nav-drawer glass-panel" id="nav-drawer">
+            <div class="nav-drawer-handle"></div>
+            <div class="nav-drawer-header">
+                <h4 class="nav-drawer-title">Question Navigator</h4>
+                <button class="nav-drawer-close" id="nav-drawer-close">✕</button>
+            </div>
+            <div class="nav-legend">
+                <div class="legend-item"><span class="legend-dot answered"></span> Answered</div>
+                <div class="legend-item"><span class="legend-dot not-answered"></span> Not Answered</div>
+                <div class="legend-item"><span class="legend-dot not-visited"></span> Not Visited</div>
+                <div class="legend-item"><span class="legend-dot flagged"></span> Flagged</div>
+            </div>
+            <div class="q-grid" id="q-grid-drawer"></div>
+            <button class="btn-primary sn-submit-btn" id="submit-btn-drawer" style="width: 100%; margin-top: 24px;">
+                Submit Exam
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" style="width: 18px; height: 18px; margin-left: 8px;">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- ══════════════════════════════
+       TOP HEADER
+    ══════════════════════════════ -->
+        <header class="exam-header" id="exam-header">
+            <div class="header-left">
+                <a href="../dashboard/dashboard.html" class="back-btn" title="Back to dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12" />
+                        <polyline points="12 19 5 12 12 5" />
+                    </svg>
+                </a>
+                <div class="exam-header-info">
+                    <span class="exam-subject-tag">MTH101</span>
+                    <span class="exam-title-text">General Mathematics CBT</span>
+                </div>
+            </div>
+
+            <div class="exam-header-right">
+                <div class="timer-block" id="timer-block">
+                    <svg class="timer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span class="timer-display" id="timer-display">40:00</span>
+                </div>
+                <button class="btn-primary submit-top-btn" id="submit-btn-top">Submit</button>
+            </div>
+        </header>
+
+        <!-- ══════════════════════════════
+       MAIN LAYOUT
+    ══════════════════════════════ -->
+        <div class="exam-layout">
+
+            <!-- ── QUESTION PANEL ── -->
+            <main class="question-panel" id="question-panel">
+
+                <!-- Progress bar -->
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+
+                <!-- Question header -->
+                <div class="q-header">
+                    <span class="q-number-badge" id="q-number-badge">Q 1 / 5</span>
+                    <button class="flag-btn" id="flag-btn" title="Flag this question">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                            <line x1="4" y1="22" x2="4" y2="15" />
+                        </svg>
+                        <span id="flag-label">Flag</span>
+                    </button>
+                </div>
+
+                <!-- Question text -->
+                <div class="question-card glass-panel" id="question-card">
+                    <p class="question-text" id="question-text">Loading question...</p>
+                </div>
+
+                <!-- Options -->
+                <div class="options-list" id="options-list">
+                    <button class="option-btn glass-panel" id="opt-0" data-opt="0">
+                        <span class="opt-letter">A</span>
+                        <span class="opt-text" id="opt-0-text"></span>
+                    </button>
+                    <button class="option-btn glass-panel" id="opt-1" data-opt="1">
+                        <span class="opt-letter">B</span>
+                        <span class="opt-text" id="opt-1-text"></span>
+                    </button>
+                    <button class="option-btn glass-panel" id="opt-2" data-opt="2">
+                        <span class="opt-letter">C</span>
+                        <span class="opt-text" id="opt-2-text"></span>
+                    </button>
+                    <button class="option-btn glass-panel" id="opt-3" data-opt="3">
+                        <span class="opt-letter">D</span>
+                        <span class="opt-text" id="opt-3-text"></span>
+                    </button>
+                </div>
+
+                <!-- Prev / Next Controls -->
+                <div class="q-nav-controls" id="q-nav-controls">
+                    <button class="btn-secondary" id="qn-prev">← Previous</button>
+                    <button class="btn-primary" id="qn-next">Next →</button>
+                </div>
+
+                <!-- Review mode answer key (hidden during exam) -->
+                <div class="answer-review-box glass-panel" id="answer-review-box">
+                    <div class="arb-icon">💡</div>
+                    <div>
+                        <div class="arb-correct">
+                            <span class="arb-label">✅ Correct Answer:</span>
+                            <span class="arb-value" id="arb-correct-val"></span>
+                        </div>
+                        <div class="arb-explain" id="arb-explain"></div>
+                    </div>
+                </div>
+
+            </main>
+
+            <!-- ── SIDEBAR NAVIGATOR (DESKTOP) ── -->
+            <aside class="sidebar-navigator glass-panel" id="sidebar-navigator">
+                <div class="sn-header">
+                    <h4 class="sn-title">Question Navigator</h4>
+                </div>
+                <div class="nav-legend">
+                    <div class="legend-item"><span class="legend-dot answered"></span> Answered</div>
+                    <div class="legend-item"><span class="legend-dot not-answered"></span> Not Answered</div>
+                    <div class="legend-item"><span class="legend-dot not-visited"></span> Not Visited</div>
+                    <div class="legend-item"><span class="legend-dot flagged"></span> Flagged</div>
+                </div>
+                <div class="q-grid" id="q-grid-desktop"></div>
+                <button class="btn-primary sn-submit-btn" id="submit-btn-sidebar">
+                    Submit Exam
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                </button>
+            </aside>
+
+        </div><!-- /exam-layout -->
+
+        <!-- ══════════════════════════════
+       BOTTOM NAV BAR (MOBILE)
+    ══════════════════════════════ -->
+        <nav class="bottom-nav glass-panel" id="bottom-nav">
+            <button class="bn-btn" id="bn-prev">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+                <span>Prev</span>
+            </button>
+
+            <button class="bn-btn bn-navigator" id="bn-navigator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                <span>Navigator</span>
+            </button>
+
+            <button class="bn-btn bn-flag" id="bn-flag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                    <line x1="4" y1="22" x2="4" y2="15" />
+                </svg>
+                <span>Flag</span>
+            </button>
+
+            <button class="bn-btn bn-next" id="bn-next">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+                <span>Next</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="../../js/router.js"></script>
+    <script src="exam_prep.js"></script>
+</body>
+
+</html>

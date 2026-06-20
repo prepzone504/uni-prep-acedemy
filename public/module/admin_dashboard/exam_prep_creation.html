@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="UniPrep Admin — Exam Prep Question Creator"/>
+  <title>Exam Prep Creator · UniPrep Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin_dashboard.css"/>
+  <style>
+    .autocomplete-list {
+      position: absolute;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      z-index: 1000;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 100%;
+      top: 100%;
+      left: 0;
+      margin-top: 4px;
+      display: none;
+      padding: 0;
+    }
+    .autocomplete-list li {
+      padding: 10px 15px;
+      cursor: pointer;
+      list-style: none;
+      font-size: 14px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+    }
+    .autocomplete-list li:last-child {
+      border-bottom: none;
+    }
+    .autocomplete-list li:hover {
+      background: #f8fafc;
+      color: #2563eb;
+    }
+    .form-field {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Auth Gate -->
+  <div id="auth-gate" class="auth-gate" style="display:none">
+    <div class="auth-gate-card">
+      <h2>🔐 Admin Required</h2>
+      <p>You must be logged in to the admin panel to access the Content Creator.</p>
+      <a href="admin_dashboard.html">Go to Admin Login</a>
+    </div>
+  </div>
+
+  <!-- BG -->
+  <div class="studio-bg"><div class="studio-bg-grid"></div></div>
+
+  <div class="studio-shell">
+    <header class="studio-topbar">
+      <div class="studio-topbar-left">
+        <a href="admin_dashboard.html" class="studio-back" title="Back to Admin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </a>
+        <div class="studio-brand">
+          <div class="studio-brand-icon"></div>
+          <div class="studio-brand-text">
+            <h1>Exam Prep Creator</h1>
+            <p>Question Builder — UniPrep Admin</p>
+          </div>
+        </div>
+      </div>
+      <span class="studio-badge">📝 Exam Prep</span>
+    </header>
+
+    <main class="studio-main">
+      <div class="studio-hero">
+        <h2>Build Exam Prep Question Sets</h2>
+        <p>Add MCQ exam questions. Paste your questions manually, preview them, then save locally.</p>
+        <div class="studio-hero-meta">
+          <span class="hero-pill">Multi-option (A–E)</span>
+          <span class="hero-pill">Difficulty control</span>
+          <span class="hero-pill">Manual paste</span>
+        </div>
+      </div>
+
+      <div class="studio-grid-layout">
+        <!-- CONFIG -->
+        <div class="studio-panel">
+          <div class="panel-header">
+            <h3>Configuration</h3>
+            <span>Step 1 — Define exam</span>
+          </div>
+          <div class="panel-body">
+            <form id="exam-gen-form" autocomplete="off">
+              <div class="form-section">
+                <div class="form-section-title">Exam Details</div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="institution">Institution</label>
+                    <input type="text" id="institution" placeholder="e.g. University of Lagos" autocomplete="off"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="faculty">Faculty</label>
+                    <input type="text" id="faculty" placeholder="e.g. Science" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="department">Department</label>
+                    <input type="text" id="department" placeholder="e.g. Computer Science" autocomplete="off"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="course_code">Course Code</label>
+                    <input type="text" id="course_code" placeholder="e.g. MTH 101" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="course_title">Course Title</label>
+                    <input type="text" id="course_title" placeholder="e.g. General Mathematics" autocomplete="off"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="topic">Topic</label>
+                    <input type="text" id="topic" placeholder="e.g. Algebra" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="level">Level</label>
+                    <select id="level">
+                      <option value="100">100 Level</option>
+                      <option value="200">200 Level</option>
+                      <option value="300">300 Level</option>
+                      <option value="400">400 Level</option>
+                      <option value="500">500 Level</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title">Generation Mode</div>
+                <div class="form-field">
+                  <label for="ai-prompt" id="ai-prompt-label">AI Prompt <span class="hint">(topic, syllabus, style)</span></label>
+                  <textarea id="ai-prompt" placeholder="e.g. Generate standard exam questions covering the specified topics..."></textarea>
+                </div>
+                <div class="mode-toggle">
+                  <button type="button" class="mode-btn active" id="mode-auto" data-mode="auto">✨ Auto (AI Generate)</button>
+                  <button type="button" class="mode-btn" id="mode-manual" data-mode="manual">✍️ Manual (Admin Paste)</button>
+                </div>
+
+                <div id="auto-section" class="mode-section">
+                  <div class="form-field" id="count-wrap">
+                    <label for="question-count">Number of Items to Generate</label>
+                    <div class="range-wrap">
+                      <input type="range" id="question-count" min="5" max="60" value="10" step="1"/>
+                      <span class="range-value" id="question-count-display">10</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="manual-section" class="mode-section hidden">
+                  <div class="form-field">
+                    <label for="manual-questions">Paste Questions + Options <span class="hint">(numbered blocks)</span></label>
+                    <textarea id="manual-questions" rows="14" placeholder="1) What is the derivative of x²?
+A) x
+B) 2x
+C) x²/2
+D) 2x²
+Answer: B
+Explanation: Power rule: d/dx(xⁿ) = nxⁿ⁻¹
+
+2) Solve: 2x + 5 = 15
+A) 5
+B) 10
+C) 4
+D) 20
+Answer: A"></textarea>
+                    <div class="manual-question-count hidden" id="manual-count"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title">AI Model</div>
+                <div class="model-grid" id="model-grid">
+                  <button type="button" class="model-card active" data-model="mistral-large-latest">
+                    <div class="model-name">Mistral Large</div>
+                    <div class="model-desc">Best reasoning & exam quality</div>
+                    <span class="model-tag">Recommended</span>
+                  </button>
+                  <button type="button" class="model-card" data-model="mistral-medium-latest">
+                    <div class="model-name">Mistral Medium</div>
+                    <div class="model-desc">Balanced speed & quality</div>
+                    <span class="model-tag">Balanced</span>
+                  </button>
+                  <button type="button" class="model-card" data-model="mistral-small-latest">
+                    <div class="model-name">Mistral Small</div>
+                    <div class="model-desc">Fast bulk generation</div>
+                    <span class="model-tag">Fast</span>
+                  </button>
+                  <button type="button" class="model-card" data-model="open-mistral-7b">
+                    <div class="model-name">Mistral 7B</div>
+                    <div class="model-desc">Cost-efficient drafts</div>
+                    <span class="model-tag">Economy</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="gen-loading" id="gen-loading">
+                <div class="gen-spinner"></div>
+                <div class="gen-loading-text" id="gen-loading-text">Processing...</div>
+              </div>
+
+              <div class="action-bar">
+                <button type="button" class="btn-primary-gen" id="btn-generate"><span>✨</span> Generate / Arrange Preview</button>
+                <button type="button" class="btn-secondary-gen" id="btn-clear">Clear</button>
+                <button type="button" class="btn-send visible" id="btn-send">💾 Save Questions</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="studio-panel">
+          <div class="panel-header">
+            <h3>Live Preview</h3>
+            <span id="preview-status">Awaiting input</span>
+          </div>
+          <div class="panel-body">
+            <div class="preview-stats hidden" id="preview-stats"></div>
+            <div class="panel-body scrollable preview-list" id="preview-list">
+              <div class="preview-empty">
+                <div class="icon">📝</div>
+                <h4>Preview your exam set</h4>
+                <p>Paste your questions on the left, then click Preview Questions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="exam_prep_gen.js"></script>
+</body>
+</html>

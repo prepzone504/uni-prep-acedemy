@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){if(window._initialLoaderAdded)return;window._initialLoaderAdded=true;document.documentElement.style.backgroundColor='#060d1f';var l=document.createElement('div');l.id='global-initial-loader';l.style.cssText='position:fixed;inset:0;background:#060d1f;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;';l.innerHTML='<style>@keyframes spa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.spa-spinner{width:60px;height:60px;border:3px solid rgba(255,255,255,0.1);border-top-color:#06b6d4;border-radius:50%;animation:spa-spin 0.9s linear infinite;margin-bottom:20px}.spa-loading-text{font-family:"Outfit",sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(191,219,254,0.7);}</style><div class="spa-spinner"></div><div class="spa-loading-text">Loading</div>';document.documentElement.appendChild(l);window.addEventListener('load',function(){l.style.opacity='0';setTimeout(function(){if(l.parentNode)l.remove();},500);});})();
+  </script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UniPrep Blog | Study Tips & Student Life</title>
+  <meta name="description" content="Discover study tips, exam prep strategies, and student life hacks on the UniPrep Blog."/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="../dashboard/dashboard.css"/>
+  <link rel="stylesheet" href="blog.css"/>
+  
+  <script src="../side_nav_bar/side_nav_bar.js"></script>
+</head>
+<body>
+
+  <main class="main-content">
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open Sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-titles">
+          <h1 class="page-title">📚 UniPrep Blog</h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="blog-container">
+      
+      <!-- Featured Post -->
+      <section class="featured-post">
+        <div class="featured-image" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200&h=600');">
+          <div class="featured-overlay">
+            <span class="category-badge">Exam Strategy</span>
+            <h2>How to Ace Your Finals: A Comprehensive Study Plan for 2026</h2>
+            <p>Master your time management and optimize your revision cycles with these proven strategies used by top-tier students.</p>
+            <div class="post-meta">
+              <span>By Dr. Sarah Jenkins</span> • <span>Jun 15, 2026</span> • <span>5 min read</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="blog-layout">
+        
+        <!-- Main Feed -->
+        <div class="blog-main">
+          
+          <div class="section-title">
+            <h3>Latest Articles</h3>
+          </div>
+
+          <article class="post-card">
+            <div class="post-img" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=600&h=400');"></div>
+            <div class="post-content">
+              <span class="category">Student Life</span>
+              <h4>Navigating Group Projects Without Losing Your Mind</h4>
+              <p>Group projects can be tough, but with the right communication tools and role assignments, you can turn a chaotic team into a well-oiled machine.</p>
+              <div class="post-meta"><span>Jun 12, 2026</span> • <span>3 min read</span></div>
+            </div>
+          </article>
+
+          <article class="post-card">
+            <div class="post-img" style="background-image: url('https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&q=80&w=600&h=400');"></div>
+            <div class="post-content">
+              <span class="category">Science & Tech</span>
+              <h4>Understanding Quantum Physics: A Beginner's Guide</h4>
+              <p>We break down complex quantum mechanics into digestible, easy-to-understand concepts perfect for first-year physics students.</p>
+              <div class="post-meta"><span>Jun 08, 2026</span> • <span>7 min read</span></div>
+            </div>
+          </article>
+
+          <article class="post-card">
+            <div class="post-img" style="background-image: url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=600&h=400');"></div>
+            <div class="post-content">
+              <span class="category">Study Hacks</span>
+              <h4>The Pomodoro Technique: Does It Actually Work?</h4>
+              <p>We tested the famous 25-minute study technique across multiple disciplines to see where it excels and where it falls short.</p>
+              <div class="post-meta"><span>Jun 05, 2026</span> • <span>4 min read</span></div>
+            </div>
+          </article>
+
+          <article class="post-card">
+            <div class="post-img" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=600&h=400');"></div>
+            <div class="post-content">
+              <span class="category">Wellbeing</span>
+              <h4>Combating Burnout During Midterms</h4>
+              <p>Mental health is crucial. Learn how to recognize the early signs of academic burnout and actionable steps to recover.</p>
+              <div class="post-meta"><span>Jun 01, 2026</span> • <span>6 min read</span></div>
+            </div>
+          </article>
+          
+          <button class="load-more">Load More Articles</button>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="blog-sidebar">
+          
+          <div class="widget">
+            <h4>Topics</h4>
+            <ul class="category-list">
+              <li><a href="#">Exam Strategy <span>(14)</span></a></li>
+              <li><a href="#">Study Hacks <span>(28)</span></a></li>
+              <li><a href="#">Student Life <span>(19)</span></a></li>
+              <li><a href="#">Science & Tech <span>(11)</span></a></li>
+              <li><a href="#">Wellbeing <span>(8)</span></a></li>
+            </ul>
+          </div>
+
+          <div class="widget newsletter-widget">
+            <h4>Subscribe to our Newsletter</h4>
+            <p>Get the best study tips delivered straight to your inbox.</p>
+            <form id="newsletter-form">
+              <input type="email" placeholder="Your email address" required/>
+              <button type="submit">Subscribe</button>
+            </form>
+          </div>
+
+          <div class="widget">
+            <h4>Popular Right Now</h4>
+            <div class="popular-posts">
+              <div class="pop-item">
+                <div class="pop-num">1</div>
+                <div class="pop-text">
+                  <a href="#">How to Memorize Equations Fast</a>
+                  <span>5k Views</span>
+                </div>
+              </div>
+              <div class="pop-item">
+                <div class="pop-num">2</div>
+                <div class="pop-text">
+                  <a href="#">Best Laptop for Engineering Students</a>
+                  <span>3.2k Views</span>
+                </div>
+              </div>
+              <div class="pop-item">
+                <div class="pop-num">3</div>
+                <div class="pop-text">
+                  <a href="#">Top 5 Notetaking Apps of 2026</a>
+                  <span>2.8k Views</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+      
+      <!-- Footer (Important for AdSense compliance) -->
+      <footer class="blog-footer">
+        <div class="footer-links">
+          <a href="#">About Us</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <p>&copy; 2026 UniPrep Technologies. All rights reserved.</p>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- Background Effects -->
+  <div class="bg-fixed"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-bg"></div>
+
+  <script src="../../js/router.js"></script>
+  <script>
+    document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = this.querySelector('button');
+      btn.textContent = 'Subscribed!';
+      btn.style.background = '#10b981';
+      this.querySelector('input').value = '';
+      setTimeout(() => {
+        btn.textContent = 'Subscribe';
+        btn.style.background = '';
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

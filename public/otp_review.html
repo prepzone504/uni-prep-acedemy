@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Verify Your Email - UniPrep</title>
+    <!--[if gte mso 9]>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:AllowPNG/>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
+    <style>
+        /* Import premium fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap');
+        
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        table { border-collapse: collapse !important; }
+        body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; font-family: 'Inter', Arial, sans-serif; background-color: #060d1f; }
+        
+        /* Hover Effects */
+        .btn:hover { background-color: #3b82f6 !important; transform: translateY(-2px); }
+        .link:hover { color: #93c5fd !important; text-decoration: underline !important; }
+        
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        .animate-pulse { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body style="background-color: #060d1f; margin: 0; padding: 0;">
+
+    <!-- Background Pattern Fallback -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #060d1f; background-image: radial-gradient(ellipse at top, #1e3a8a 0%, #060d1f 70%);">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                
+                <!-- Main Card -->
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="max-width: 520px; background-color: #0f1937; border-radius: 24px; overflow: hidden; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(96, 165, 250, 0.15); border: 1px solid #1e3a8a;">
+                    
+                    <!-- Top Accent Line -->
+                    <tr>
+                        <td height="4" style="background: linear-gradient(90deg, #3b82f6, #06b6d4); font-size: 0; line-height: 0;">&nbsp;</td>
+                    </tr>
+
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="padding: 48px 40px 24px;">
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center" style="background: linear-gradient(135deg, #2563eb, #06b6d4); border-radius: 14px; width: 56px; height: 56px; line-height: 56px; font-size: 28px; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);">
+                                        🎓
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding-top: 16px;">
+                                        <a href="#" style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; color: #ffffff; text-decoration: none; letter-spacing: -0.5px;">Uni<span style="color: #93c5fd;">Prep</span></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td align="center" style="padding: 0 40px 40px;">
+                            <h1 style="font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; margin: 0 0 16px; color: #ffffff; letter-spacing: -0.5px;">Confirm Your Email</h1>
+                            <p style="font-family: 'Inter', sans-serif; font-size: 15px; color: #bfdbfe; line-height: 1.6; margin: 0 0 32px; opacity: 0.85;">
+                                You're almost ready to get started. Please use the verification code below to confirm your email address.
+                            </p>
+                            
+                            <!-- OTP Box -->
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; max-width: 340px;">
+                                <tr>
+                                    <td align="center" style="background-color: #08102d; border: 1px solid #2563eb; border-radius: 16px; padding: 32px 20px; box-shadow: inset 0 0 20px rgba(37, 99, 235, 0.1);">
+                                        <div style="font-family: 'Outfit', 'Inter', monospace; font-size: 48px; font-weight: 900; letter-spacing: 16px; color: #06b6d4; margin: 0; text-align: center; text-shadow: 0 0 24px rgba(6, 182, 212, 0.5); padding-left: 16px;">
+                                            {{ .Token }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <!-- Security Notice -->
+                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; margin-top: 32px;">
+                                <tr>
+                                    <td align="center">
+                                        <div style="display: inline-block; background-color: rgba(37, 99, 235, 0.1); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: 999px; padding: 8px 16px;">
+                                            <p style="font-family: 'Inter', sans-serif; font-size: 12px; color: #93c5fd; margin: 0; font-weight: 500;">
+                                                ⏱️ This code expires in <strong style="color: #ffffff;">10 minutes</strong>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="background-color: #060d1f; padding: 32px 40px; border-top: 1px solid rgba(96, 165, 250, 0.1);">
+                            <p style="font-family: 'Inter', sans-serif; font-size: 13px; color: #64748b; line-height: 1.6; margin: 0 0 16px;">
+                                If you didn't request this code, you can safely ignore this email. Someone might have typed your email address by mistake.
+                            </p>
+                            <p style="font-family: 'Inter', sans-serif; font-size: 12px; color: #475569; margin: 0;">
+                                &copy; 2026 UniPrep Inc.<br>
+                                <a href="#" class="link" style="color: #60a5fa; text-decoration: none;">Privacy Policy</a> &bull; 
+                                <a href="#" class="link" style="color: #60a5fa; text-decoration: none;">Terms of Service</a> &bull; 
+                                <a href="#" class="link" style="color: #60a5fa; text-decoration: none;">Support</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

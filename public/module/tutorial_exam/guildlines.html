@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){if(window._initialLoaderAdded)return;window._initialLoaderAdded=true;document.documentElement.style.backgroundColor='#060d1f';var l=document.createElement('div');l.id='global-initial-loader';l.style.cssText='position:fixed;inset:0;background:#060d1f;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;';l.innerHTML='<style>@keyframes spa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.spa-spinner{width:60px;height:60px;border:3px solid rgba(255,255,255,0.1);border-top-color:#06b6d4;border-radius:50%;animation:spa-spin 0.9s linear infinite;margin-bottom:20px}.spa-loading-text{font-family:"Outfit",sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(191,219,254,0.7);}</style><div class="spa-spinner"></div><div class="spa-loading-text">Loading</div>';document.documentElement.appendChild(l);window.addEventListener('load',function(){l.style.opacity='0';setTimeout(function(){if(l.parentNode)l.remove();},500);});})();
+  </script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Guidelines · UniPrep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../dashboard/dashboard.css"/>
+  <script src="../side_nav_bar/side_nav_bar.js"></script>
+  <style>
+    .gl-page { padding:24px 20px 80px; max-width:680px; margin:0 auto; }
+
+    /* Exam info banner */
+    .gl-banner {
+      border-radius:20px; padding:28px 28px;
+      background:linear-gradient(135deg,rgba(37,99,235,0.18),rgba(6,182,212,0.1));
+      border:1px solid rgba(96,165,250,0.22);
+      backdrop-filter:blur(14px);
+      margin-bottom:28px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .gl-banner-top { display:flex; align-items:center; gap:14px; }
+    .gl-subject-icon {
+      width:48px; height:48px; border-radius:14px;
+      background:linear-gradient(135deg,#2563eb,#06b6d4);
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px; flex-shrink:0;
+      box-shadow:0 6px 20px rgba(37,99,235,0.35);
+    }
+    .gl-subject-name { font-family:'Outfit',sans-serif; font-size:22px; font-weight:800; color:#fff; }
+    .gl-subject-full { font-size:13px; color:rgba(191,219,254,0.7); margin-top:2px; }
+    .gl-chips { display:flex; flex-wrap:wrap; gap:8px; }
+    .gl-chip {
+      display:flex; align-items:center; gap:6px;
+      padding:6px 14px; border-radius:20px; font-size:13px; font-weight:600;
+      background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.08); color:#cbd5e1;
+    }
+    .gl-chip svg { width:14px; height:14px; opacity:0.7; }
+
+    /* Rules list */
+    .gl-rules-title {
+      font-family:'Outfit',sans-serif; font-size:13px; font-weight:700;
+      color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px;
+      margin-bottom:14px;
+    }
+    .gl-rules { display:flex; flex-direction:column; gap:10px; margin-bottom:32px; }
+    .gl-rule {
+      display:flex; align-items:flex-start; gap:14px;
+      background:rgba(15,25,55,0.55); border:1px solid rgba(96,165,250,0.1);
+      border-radius:14px; padding:16px 18px;
+      backdrop-filter:blur(10px);
+    }
+    .gl-rule-num {
+      width:28px; height:28px; border-radius:8px; flex-shrink:0;
+      background:rgba(37,99,235,0.2); border:1px solid rgba(96,165,250,0.2);
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Outfit',sans-serif; font-size:13px; font-weight:800; color:#60a5fa;
+    }
+    .gl-rule-text { font-size:14px; color:#cbd5e1; line-height:1.6; padding-top:4px; }
+    .gl-rule-text strong { color:#fff; font-weight:600; }
+
+    /* Warning */
+    .gl-warning {
+      display:flex; align-items:center; gap:12px;
+      background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.2);
+      border-radius:14px; padding:16px 18px; margin-bottom:28px;
+      font-size:13px; color:#fbbf24;
+    }
+    .gl-warning-icon { font-size:20px; flex-shrink:0; }
+
+    /* Start button */
+    .gl-start-btn {
+      width:100%; padding:18px;
+      background:linear-gradient(135deg,#2563eb,#0891b2);
+      color:#fff; border:none; border-radius:16px;
+      font-family:'Outfit',sans-serif; font-size:17px; font-weight:800;
+      cursor:pointer; transition:all 0.25s;
+      box-shadow:0 6px 24px rgba(37,99,235,0.4);
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .gl-start-btn:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(37,99,235,0.55); }
+    .gl-start-btn:active { transform:translateY(0); }
+  </style>
+</head>
+<body>
+  <main class="main-content">
+    <header class="top-header">
+      <div class="header-left">
+        <a href="all_subject.html" class="menu-btn" style="text-decoration:none" title="Back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </a>
+        <div class="header-titles">
+          <h1 class="page-title">Guidelines</h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="gl-page">
+
+      <!-- Exam Banner -->
+      <div class="gl-banner">
+        <div class="gl-banner-top">
+          <div class="gl-subject-icon" id="gl-icon">📐</div>
+          <div>
+            <div class="gl-subject-name" id="gl-subject">MTH101</div>
+            <div class="gl-subject-full" id="gl-subject-full">General Mathematics</div>
+          </div>
+        </div>
+        <div class="gl-chips">
+          <div class="gl-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="gl-time">40 mins</span>
+          </div>
+          <div class="gl-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span id="gl-qs">20 Questions</span>
+          </div>
+          <div class="gl-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span id="gl-tutor">Dr. Emeka Eze</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rules -->
+      <div class="gl-rules-title">Exam Rules</div>
+      <div class="gl-rules">
+        <div class="gl-rule">
+          <div class="gl-rule-num">1</div>
+          <div class="gl-rule-text">The timer starts <strong>immediately</strong> once you click "Start Exam". It cannot be paused.</div>
+        </div>
+        <div class="gl-rule">
+          <div class="gl-rule-num">2</div>
+          <div class="gl-rule-text">Each question has <strong>one correct answer</strong>. Select the best option from A–D.</div>
+        </div>
+        <div class="gl-rule">
+          <div class="gl-rule-num">3</div>
+          <div class="gl-rule-text">You can <strong>flag questions</strong> to revisit them before submitting.</div>
+        </div>
+        <div class="gl-rule">
+          <div class="gl-rule-num">4</div>
+          <div class="gl-rule-text">The exam <strong>auto-submits</strong> when time runs out.</div>
+        </div>
+        <div class="gl-rule">
+          <div class="gl-rule-num">5</div>
+          <div class="gl-rule-text">After submission, you can <strong>review your answers</strong> and see corrections.</div>
+        </div>
+      </div>
+
+      <!-- Warning -->
+      <div class="gl-warning">
+        <div class="gl-warning-icon">⚠️</div>
+        <span>Do not close or refresh the page during the exam. Your progress will be lost.</span>
+      </div>
+
+      <!-- CTA -->
+      <button class="gl-start-btn" onclick="startExam()">
+        Start Exam
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </main>
+
+  <div class="bg-fixed"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-bg"></div>
+
+  <script src="../../js/router.js"></script>
+  <script>
+    var subjectIcons = { MTH101:'📐', PHY101:'⚡', CHM101:'🧪', BIO101:'🌿', ENG101:'📝', CSC101:'💻' };
+    var subjectTimes = { MTH101:'40 mins', PHY101:'30 mins', CHM101:'50 mins', BIO101:'40 mins', ENG101:'45 mins', CSC101:'35 mins' };
+    var subjectQs   = { MTH101:'20 Questions', PHY101:'15 Questions', CHM101:'25 Questions', BIO101:'20 Questions', ENG101:'30 Questions', CSC101:'20 Questions' };
+
+    var subject = sessionStorage.getItem('te_subject') || 'MTH101';
+    var subjectName = sessionStorage.getItem('te_subject_name') || 'General Mathematics';
+    var tutor = sessionStorage.getItem('te_tutor') || 'Tutor';
+
+    document.getElementById('gl-icon').textContent   = subjectIcons[subject] || '📄';
+    document.getElementById('gl-subject').textContent      = subject;
+    document.getElementById('gl-subject-full').textContent = subjectName;
+    document.getElementById('gl-time').textContent   = subjectTimes[subject] || '40 mins';
+    document.getElementById('gl-qs').textContent     = subjectQs[subject] || '20 Questions';
+    document.getElementById('gl-tutor').textContent  = tutor;
+
+    function startExam() {
+      window.location.href = 'tutor_exam.html';
+    }
+  </script>
+</body>
+</html>

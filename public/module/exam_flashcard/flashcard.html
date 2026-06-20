@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="description" content="UniPrep — Flash Card Study"/>
+  <meta name="theme-color" content="#080808"/>
+  <title>Study Cards | UniPrep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="flashcard.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- No side_nav_bar.js loaded here because game mode takes full screen -->
+</head>
+<body class="game-mode-active">
+
+  <!-- ══════════════════════════════
+       MAIN WRAPPER
+  ══════════════════════════════ -->
+  <div class="main-wrapper" style="margin-left: 0 !important;">
+
+    <!-- ══════════════════════════════
+         VIEW 2: CARD VIEWER
+    ══════════════════════════════ -->
+    <main class="card-view" id="card-view">
+      
+      <!-- TOP NAV -->
+      <div class="cv-top-nav">
+        <div class="cv-progress-container">
+          <div class="cv-progress-bar" id="progress-fill"></div>
+        </div>
+        <div class="cv-header">
+          <span class="cv-deck-badge" id="cv-deck-badge">Loading...</span>
+          <button class="btn-quit" id="btn-quit">Quit Session</button>
+        </div>
+      </div>
+
+      <!-- CENTER ARENA -->
+      <div class="cv-center-arena">
+        <div class="flashcard" id="flashcard">
+          <div class="flashcard-inner" id="flashcard-inner">
+            <div class="flashcard-front">
+              <div class="fc-front-header">
+                <div class="fc-subject-tag">Front</div>
+                <div class="fc-view-count" id="fc-view-count"><span class="fc-view-icon">👀</span> Viewed (0 times)</div>
+              </div>
+              <p class="fc-question" id="fc-question">Loading...</p>
+              <div class="fc-tap-hint">Tap card to flip ↺</div>
+            </div>
+            <!-- BACK -->
+            <div class="flashcard-back">
+              <div class="fc-front-header">
+                <div class="fc-subject-tag">Back</div>
+                <div class="fc-view-count" id="fc-view-count-back"><span class="fc-view-icon">👀</span> Viewed (0 times)</div>
+              </div>
+              <p class="fc-answer" id="fc-answer">Loading...</p>
+              <p class="fc-explanation" id="fc-explanation"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM CONTROLS -->
+      <div class="cv-bottom-nav">
+        <div class="fc-controls-inner">
+          <button class="fc-nav-btn" id="btn-prev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><polyline points="15 18 9 12 15 6"/></svg>
+            <span class="fc-nav-label">Previous</span>
+          </button>
+          <div class="fc-rate-row" id="rate-row" style="opacity: 0; pointer-events: none; transform: translateY(10px);">
+            <button class="fc-rate-btn wrong" id="btn-wrong">
+              <span style="font-size:1.2rem">😕</span> <span class="rate-label">Hard</span>
+            </button>
+            <button class="fc-rate-btn correct" id="btn-correct">
+              <span style="font-size:1.2rem">😊</span> <span class="rate-label">Got It</span>
+            </button>
+          </div>
+          <button class="fc-nav-btn" id="btn-next">
+            <span class="fc-nav-label">Next</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ══════════════════════════════
+         VIEW 3: COMPLETION
+    ══════════════════════════════ -->
+    <div class="completion-view" id="completion-view" style="display: none;">
+      <div class="comp-box">
+        <div class="comp-icon">🎉</div>
+        <h2 class="comp-title">Deck Completed!</h2>
+        <p class="comp-sub" id="comp-deck-name">You've successfully reviewed all cards.</p>
+        
+        <div class="comp-stats">
+          <div class="cs-item">
+            <span class="cs-num" id="cs-gotit" style="color: #34d399;">0</span>
+            <span class="cs-label">Got It</span>
+          </div>
+          <div class="cs-item">
+            <span class="cs-num" id="cs-hard" style="color: #ff7070;">0</span>
+            <span class="cs-label">Hard</span>
+          </div>
+        </div>
+
+        <div class="comp-actions">
+          <button class="comp-btn restart" id="btn-restart">Restart Deck</button>
+          <button class="comp-btn home" id="btn-home">Return to List</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../../js/router.js"></script>
+  <script src="flashcard.js"></script>
+</body>
+</html>

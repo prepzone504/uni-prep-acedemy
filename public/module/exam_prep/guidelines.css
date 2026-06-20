@@ -1,0 +1,80 @@
+/* ============================================
+   UNIPREP — EXAM GUIDELINES CSS
+============================================ */
+
+:root {
+  --blue-200: #bfdbfe; --blue-300: #93c5fd; --blue-400: #60a5fa;
+  --blue-500: #3b82f6; --blue-600: #2563eb; --blue-700: #1d4ed8;
+  --accent: #06b6d4; --gold: #f59e0b;
+  --bg-base: #060d1f;
+  --border: rgba(96,165,250,0.22);
+  --text-primary: #f0f6ff;
+  --text-muted: rgba(191,219,254,0.7);
+  --radius-lg: 20px; --radius-xl: 28px; --radius-pill: 999px;
+  --t: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif; background: var(--bg-base);
+  color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column;
+}
+
+/* ── BG EFFECTS ── */
+.bg-fixed { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse 65% 55% at 30% 20%, rgba(29,78,216,0.28) 0%, transparent 70%), radial-gradient(ellipse 55% 50% at 75% 80%, rgba(6,182,212,0.15) 0%, transparent 60%), linear-gradient(145deg, #060d1f 0%, #0a1535 60%, #060d1f 100%); }
+.orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: 0.28; z-index: -1; pointer-events: none; }
+.orb-1 { width: 600px; height: 600px; top: -150px; left: -150px; background: radial-gradient(circle, #1d4ed8, transparent); animation: drift 14s ease-in-out infinite alternate; }
+.orb-2 { width: 500px; height: 500px; bottom: -100px; right: -100px; background: radial-gradient(circle, #06b6d4, transparent); animation: drift 10s ease-in-out infinite alternate-reverse; }
+.orb-3 { width: 350px; height: 350px; top: 40%; left: 40%; background: radial-gradient(circle, #2563eb, transparent); animation: drift 8s ease-in-out infinite alternate; }
+@keyframes drift { 0%{transform:translate(0,0);} 100%{transform:translate(40px,40px);} }
+.grid-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(37,99,235,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.05) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%); }
+
+.main-wrapper { flex: 1; display: flex; flex-direction: column; }
+
+/* ── UI COMPONENTS ── */
+.glass-panel { background: rgba(15,25,55,0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: var(--radius-xl); }
+
+.btn-primary { background: linear-gradient(135deg, var(--blue-600), var(--blue-500)); color: #fff; border: none; border-radius: 14px; padding: 16px 28px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; transition: var(--t); box-shadow: 0 6px 20px rgba(37,99,235,0.4); display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; flex: 1; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.55); }
+.btn-primary svg { width: 18px; height: 18px; }
+
+.btn-secondary { background: rgba(0,0,0,0.3); color: var(--text-primary); border: 1px solid var(--border); border-radius: 14px; padding: 16px 28px; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: var(--t); display: inline-flex; align-items: center; justify-content: center; text-decoration: none; flex: 1; }
+.btn-secondary:hover { background: rgba(37,99,235,0.1); border-color: var(--blue-400); }
+
+/* ── TOP HEADER ── */
+.exam-header { display: flex; align-items: center; padding: 16px 24px; min-height: 80px; }
+.header-left, .header-right { flex: 1; display: flex; }
+.header-center { flex: 2; text-align: center; }
+.back-btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; text-decoration: none; transition: var(--t); }
+.back-btn:hover { background: rgba(255,255,255,0.1); transform: translateX(-2px); }
+.back-btn svg { width: 22px; height: 22px; }
+.exam-title-text { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: #fff; }
+
+/* ── GUIDELINES LAYOUT ── */
+.guidelines-layout { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.guidelines-card { width: 100%; max-width: 600px; padding: 40px; text-align: center; animation: popIn 0.4s cubic-bezier(0.34,1.2,0.64,1); }
+@keyframes popIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.gl-icon { font-size: 48px; margin-bottom: 16px; display: inline-block; background: rgba(37,99,235,0.2); width: 80px; height: 80px; line-height: 80px; border-radius: 20px; box-shadow: 0 8px 32px rgba(37,99,235,0.3); border: 1px solid rgba(96,165,250,0.3); }
+.gl-title { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+.gl-subtitle { font-size: 15px; color: var(--blue-300); margin-bottom: 32px; font-weight: 600; }
+
+.gl-rules-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 24px; text-align: left; margin-bottom: 32px; }
+.gl-rules-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+.gl-rules-list li { display: flex; gap: 16px; align-items: flex-start; }
+.rule-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.08); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.rule-text { font-size: 14.5px; color: var(--text-muted); line-height: 1.5; }
+.rule-text strong { color: #fff; display: block; margin-bottom: 2px; font-size: 15px; }
+
+.gl-actions { display: flex; gap: 16px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .guidelines-card { padding: 32px 24px; }
+  .gl-title { font-size: 24px; }
+  .gl-actions { flex-direction: column; }
+  .rule-icon { width: 32px; height: 32px; font-size: 16px; border-radius: 8px; }
+  .rule-text { font-size: 13.5px; }
+  .rule-text strong { font-size: 14px; }
+}

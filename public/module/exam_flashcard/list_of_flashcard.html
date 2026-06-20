@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="UniPrep Flash Cards — Select a Deck"/>
+  <title>Flash Cards · UniPrep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="flashcard.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../side_nav_bar/side_nav_bar.js"></script>
+  <style>
+    /* Small overrides for integration */
+    body { background: #060d1f; } /* match UniPrep */
+    .fc-topbar { display: none !important; } /* We will use standard UniPrep sidebar */
+    
+    .page-header {
+      padding: 30px 24px 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .menu-btn {
+      background: none; border: none; color: #fff; cursor: pointer;
+      display: none;
+    }
+    @media (max-width: 1023px) {
+      .menu-btn { display: block; }
+    }
+    .page-title {
+      font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UniPrep Side Navigation Container -->
+  <div id="side-nav-container"></div>
+
+  <div class="main-wrapper">
+    <!-- TOP HEADER -->
+    <header class="page-header">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open Sidebar">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <h1 class="page-title">🃏 Flash Cards</h1>
+      </div>
+    </header>
+
+    <main class="deck-view" id="deck-view">
+      <div class="deck-view-header">
+        <h1 class="deck-view-title">Pick a Study Deck</h1>
+        <p class="deck-view-sub">Select a subject deck to start reviewing your flash cards.</p>
+      </div>
+
+      <div class="deck-grid" id="deck-grid">
+        <div class="empty-state">Loading decks...</div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../../js/router.js"></script>
+  <script src="list_of_flashcard.js"></script>
+</body>
+</html>

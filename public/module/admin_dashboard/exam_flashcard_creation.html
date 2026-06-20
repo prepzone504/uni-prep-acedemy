@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashcard Creator · UniPrep Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin_dashboard.css"/>
+</head>
+<body>
+
+  <div id="auth-gate" class="auth-gate" style="display:none">
+    <div class="auth-gate-card">
+      <h2>🔐 Admin Required</h2>
+      <p>You must be logged in to access the Content Creator.</p>
+      <a href="admin_dashboard.html">Go to Admin Login</a>
+    </div>
+  </div>
+
+  <div class="studio-bg"><div class="studio-bg-grid"></div></div>
+
+  <div class="studio-shell">
+    <header class="studio-topbar">
+      <div class="studio-topbar-left">
+        <a href="admin_dashboard.html" class="studio-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </a>
+        <div class="studio-brand">
+          <div class="studio-brand-icon" style="background:linear-gradient(135deg,#d97706,#f59e0b)"></div>
+          <div class="studio-brand-text">
+            <h1>Flashcard Creator</h1>
+            <p>Study Deck Builder — UniPrep Admin</p>
+          </div>
+        </div>
+      </div>
+      <span class="studio-badge" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.25);color:#fbbf24;">🃏 Flashcard</span>
+    </header>
+
+    <main class="studio-main">
+      <div class="studio-hero">
+        <h2>Build Flashcard Study Decks</h2>
+        <p>Paste front/back card pairs to create study decks. Package by subject and push to students.</p>
+        <div class="studio-hero-meta">
+          <span class="hero-pill">Deck name &amp; description</span>
+          <span class="hero-pill">5–50 cards per deck</span>
+          <span class="hero-pill">Subject-based</span>
+        </div>
+      </div>
+
+      <div class="studio-grid-layout">
+        <div class="studio-panel">
+          <div class="panel-header">
+            <h3>Configuration</h3>
+            <span>Step 1 — Define deck</span>
+          </div>
+          <div class="panel-body">
+            <form id="exam-gen-form" autocomplete="off">
+              <div class="form-section">
+                <div class="form-section-title">Deck Details</div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="institution">Institution</label>
+                    <input type="text" id="institution" placeholder="e.g. University of Lagos" autocomplete="off"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="faculty">Faculty</label>
+                    <input type="text" id="faculty" placeholder="e.g. Science" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="department">Department</label>
+                    <input type="text" id="department" placeholder="e.g. Computer Science" autocomplete="off"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="course_code">Course Code</label>
+                    <input type="text" id="course_code" placeholder="e.g. CHM101" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="course_title">Course Title</label>
+                    <input type="text" id="course_title" placeholder="e.g. Organic Chemistry" autocomplete="off"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="topic">Topic</label>
+                    <input type="text" id="topic" placeholder="e.g. Alkanes" autocomplete="off"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="level">Level</label>
+                    <select id="level">
+                      <option value="100">100 Level</option>
+                      <option value="200">200 Level</option>
+                      <option value="300">300 Level</option>
+                      <option value="400">400 Level</option>
+                      <option value="500">500 Level</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title">Generation Mode</div>
+                <div class="form-field">
+                  <label for="ai-prompt" id="ai-prompt-label">AI Prompt <span class="hint">(topic, syllabus, style)</span></label>
+                  <textarea id="ai-prompt" placeholder="e.g. Generate flashcards covering the specified topics..."></textarea>
+                </div>
+                <div class="mode-toggle">
+                  <button type="button" class="mode-btn active" id="mode-auto" data-mode="auto">✨ Auto (AI Generate)</button>
+                  <button type="button" class="mode-btn" id="mode-manual" data-mode="manual">✍️ Manual (Admin Paste)</button>
+                </div>
+
+                <div id="auto-section" class="mode-section">
+                  <div class="form-field" id="count-wrap">
+                    <label for="question-count">Number of Items to Generate</label>
+                    <div class="range-wrap">
+                      <input type="range" id="question-count" min="5" max="60" value="10" step="1"/>
+                      <span class="range-value" id="question-count-display">10</span>
+                    </div>
+                  </div>
+                  <div class="form-section-title" style="margin-top:20px;">AI Model</div>
+                  <div class="model-grid" id="model-grid">
+                    <button type="button" class="model-card active" data-model="mistral-large-latest">
+                      <div class="model-name">Mistral Large</div>
+                      <div class="model-desc">Best reasoning & quality</div>
+                      <span class="model-tag">Recommended</span>
+                    </button>
+                    <button type="button" class="model-card" data-model="mistral-medium-latest">
+                      <div class="model-name">Mistral Medium</div>
+                      <div class="model-desc">Balanced speed & quality</div>
+                      <span class="model-tag">Balanced</span>
+                    </button>
+                    <button type="button" class="model-card" data-model="mistral-small-latest">
+                      <div class="model-name">Mistral Small</div>
+                      <div class="model-desc">Fast bulk generation</div>
+                      <span class="model-tag">Fast</span>
+                    </button>
+                    <button type="button" class="model-card" data-model="open-mistral-7b">
+                      <div class="model-name">Mistral 7B</div>
+                      <div class="model-desc">Cost-efficient drafts</div>
+                      <span class="model-tag">Economy</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div id="manual-section" class="mode-section hidden">
+                  <div class="form-field">
+                    <label for="manual-questions">Front / Back Pairs <span class="hint">(use FRONT: and BACK: format)</span></label>
+                    <textarea id="manual-questions" rows="16" placeholder="1)
+FRONT: What is the molecular formula of glucose?
+BACK: C₆H₁₂O₆ — Glucose is a simple sugar (monosaccharide) with 6 carbons, 12 hydrogens, and 6 oxygens.
+
+2)
+FRONT: Define oxidation in chemistry.
+BACK: Oxidation is the loss of electrons (or gain of oxygen) by a molecule, atom, or ion. Mnemonic: OIL (Oxidation Is Loss).
+
+3)
+FRONT: What is Avogadro's number?
+BACK: 6.022 × 10²³ — the number of atoms, molecules, or particles in one mole of a substance."></textarea>
+                    <div class="manual-question-count hidden" id="manual-count"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="gen-loading" id="gen-loading">
+                <div class="gen-spinner"></div>
+                <div class="gen-loading-text" id="gen-loading-text">Processing...</div>
+              </div>
+
+              <div class="action-bar">
+                <button type="button" class="btn-primary-gen" id="btn-generate">🃏 Preview Deck</button>
+                <button type="button" class="btn-secondary-gen" id="btn-clear">Clear</button>
+                <button type="button" class="btn-send visible" id="btn-send">💾 Save Deck</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="studio-panel">
+          <div class="panel-header">
+            <h3>Live Preview</h3>
+            <span id="preview-status">Awaiting input</span>
+          </div>
+          <div class="panel-body">
+            <div class="preview-stats hidden" id="preview-stats"></div>
+            <div class="panel-body scrollable preview-list" id="preview-list">
+              <div class="preview-empty">
+                <div class="icon">🃏</div>
+                <h4>Preview your flashcard deck</h4>
+                <p>Paste your FRONT/BACK card pairs on the left, then click Preview Deck.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="exam_flashcard_gen.js?v=2"></script>
+</body>
+</html>

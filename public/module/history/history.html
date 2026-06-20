@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    (function(){if(window._initialLoaderAdded)return;window._initialLoaderAdded=true;document.documentElement.style.backgroundColor='#060d1f';var l=document.createElement('div');l.id='global-initial-loader';l.style.cssText='position:fixed;inset:0;background:#060d1f;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;';l.innerHTML='<style>@keyframes spa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}.spa-spinner{width:60px;height:60px;border:3px solid rgba(255,255,255,0.1);border-top-color:#06b6d4;border-radius:50%;animation:spa-spin 0.9s linear infinite;margin-bottom:20px}.spa-loading-text{font-family:"Outfit",sans-serif;font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(191,219,254,0.7);}</style><div class="spa-spinner"></div><div class="spa-loading-text">Loading</div>';document.documentElement.appendChild(l);window.addEventListener('load',function(){l.style.opacity='0';setTimeout(function(){if(l.parentNode)l.remove();},500);});})();
+  </script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exam History · UniPrep</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="../dashboard/dashboard.css"/>
+  <link rel="stylesheet" href="history.css"/>
+  
+  <script src="../side_nav_bar/side_nav_bar.js"></script>
+</head>
+<body>
+
+  <main class="main-content">
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open Sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="header-titles">
+          <h1 class="page-title">🕒 Exam History</h1>
+        </div>
+      </div>
+    </header>
+
+    <div class="history-container">
+      
+      <!-- Summary Cards -->
+      <div class="history-summary">
+        <div class="summary-card">
+          <div class="summary-icon" style="background: rgba(59,130,246,0.1); color: #60a5fa;">📝</div>
+          <div class="summary-info">
+            <span class="summary-label">Total Exams Taken</span>
+            <span class="summary-value">12</span>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon" style="background: rgba(34,197,94,0.1); color: #4ade80;">📈</div>
+          <div class="summary-info">
+            <span class="summary-label">Average Score</span>
+            <span class="summary-value">78%</span>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon" style="background: rgba(168,85,247,0.1); color: #c084fc;">🔥</div>
+          <div class="summary-info">
+            <span class="summary-label">Highest Score</span>
+            <span class="summary-value">92%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- History List -->
+      <div class="history-card">
+        <div class="history-header">
+          <h2>Past Exam Prep Sessions</h2>
+          <p>Review your answers and explanations for past exams.</p>
+        </div>
+        
+        <div class="history-list">
+          
+          <!-- Item 1 -->
+          <div class="history-item">
+            <div class="hist-details">
+              <div class="hist-course">MTH101: Calculus Basics</div>
+              <div class="hist-meta">
+                <span>📅 Jun 18, 2026</span>
+                <span class="hist-dot">•</span>
+                <span>⏱️ 45 mins</span>
+                <span class="hist-dot">•</span>
+                <span class="hist-status passed">Passed (85%)</span>
+              </div>
+            </div>
+            <div class="hist-action">
+              <button class="btn-review" onclick="showReviewToast('MTH101')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Review
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="history-item">
+            <div class="hist-details">
+              <div class="hist-course">PHY101: Mechanics & Properties of Matter</div>
+              <div class="hist-meta">
+                <span>📅 Jun 15, 2026</span>
+                <span class="hist-dot">•</span>
+                <span>⏱️ 60 mins</span>
+                <span class="hist-dot">•</span>
+                <span class="hist-status failed">Failed (45%)</span>
+              </div>
+            </div>
+            <div class="hist-action">
+              <button class="btn-review" onclick="showReviewToast('PHY101')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Review
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="history-item">
+            <div class="hist-details">
+              <div class="hist-course">CHM101: Organic Chemistry I</div>
+              <div class="hist-meta">
+                <span>📅 Jun 10, 2026</span>
+                <span class="hist-dot">•</span>
+                <span>⏱️ 50 mins</span>
+                <span class="hist-dot">•</span>
+                <span class="hist-status passed">Passed (92%)</span>
+              </div>
+            </div>
+            <div class="hist-action">
+              <button class="btn-review" onclick="showReviewToast('CHM101')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Review
+              </button>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="history-item">
+            <div class="hist-details">
+              <div class="hist-course">BIO101: General Biology</div>
+              <div class="hist-meta">
+                <span>📅 Jun 05, 2026</span>
+                <span class="hist-dot">•</span>
+                <span>⏱️ 40 mins</span>
+                <span class="hist-dot">•</span>
+                <span class="hist-status passed">Passed (68%)</span>
+              </div>
+            </div>
+            <div class="hist-action">
+              <button class="btn-review" onclick="showReviewToast('BIO101')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                Review
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Background Effects -->
+  <div class="bg-fixed"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-bg"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="../../js/router.js"></script>
+  <script>
+    function showReviewToast(course) {
+      const tc = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = 'toast toast-info';
+      t.innerHTML = 'Opening review mode for <strong>' + course + '</strong>...';
+      tc.appendChild(t);
+      setTimeout(() => t.remove(), 3000);
+      
+      // In a real app, this would route to a review page with the exam ID.
+      // e.g. window.location.href = '../exam_prep/review.html?course=' + course;
+    }
+  </script>
+</body>
+</html>

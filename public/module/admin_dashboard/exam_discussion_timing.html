@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UniPrep Admin — Discussion Timing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin_dashboard.css" />
+  <style>
+    /* Add specific overrides if necessary */
+    .dt-input {
+      width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--ad-border); border-radius: 10px; color: #fff;
+      font-family: var(--ad-font); font-size: 1rem; margin-bottom: 24px;
+      outline: none; transition: 0.3s ease;
+    }
+    .dt-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+    .dt-input:focus { border-color: #60a5fa; background: rgba(255,255,255,0.08); }
+    .modal-actions { display: flex; gap: 12px; }
+  </style>
+</head>
+<body>
+
+  <div class="studio-bg">
+    <div class="studio-bg-grid"></div>
+  </div>
+
+  <div class="studio-shell">
+    <header class="studio-topbar">
+      <div class="studio-topbar-left">
+        <a href="admin_dashboard.html" class="studio-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </a>
+        <div class="studio-brand">
+          <div class="studio-brand-icon" style="font-size:16px; display:flex; align-items:center; justify-content:center; color:#fff;">⏳</div>
+          <div class="studio-brand-text">
+            <h1>Scheduler</h1>
+            <p>Discussion Timing</p>
+          </div>
+        </div>
+      </div>
+      <div class="studio-badge">Live Updates</div>
+    </header>
+
+    <main class="studio-main">
+      <div class="studio-hero">
+        <h2>🗓️ Exam Discussion Scheduler</h2>
+        <p>View all discussion batches and set active start times. You can schedule a batch multiple times to accommodate different groups.</p>
+      </div>
+
+      <div id="scheduler-grid" class="scheduler-grid">
+        <div class="preview-empty" style="grid-column: 1 / -1;">
+            <div class="gen-spinner" style="display:block; margin:0 auto 16px;"></div>
+            <h4>Loading Discussions...</h4>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Schedule Modal -->
+  <div class="modal-overlay" id="schedule-modal">
+    <div class="modal-card">
+      <h3 class="modal-title">Set Start Time</h3>
+      <p class="modal-desc">Select the date and time when this discussion session will become active for students to join.</p>
+      
+      <input type="datetime-local" id="schedule-datetime" class="dt-input" />
+
+      <div class="modal-actions">
+        <button class="btn-secondary-gen" id="btn-cancel-schedule" style="flex:1;">Cancel</button>
+        <button class="btn-primary-gen" id="btn-save-schedule" style="flex:1;">Save Schedule</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://ivbhpsqlnlundhotgonf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2Ymhwc3Fsbmx1bmRob3Rnb25mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MjUwMjEsImV4cCI6MjA5NzQwMTAyMX0.SnrfpFSv5-2YauC-3ca0pmfi1VM1ikdaeyTdaMBV-KQ';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let ALL_BATCHES = {};
+    let ALL_SCHEDULES = [];
+
+    const grid = document.getElementById('scheduler-grid');
+    const modal = document.getElementById('schedule-modal');
+    const dtInput = document.getElementById('schedule-datetime');
+    let targetBatchId = null;
+
+    async function loadData() {
+        try {
+            // Fetch batches
+            const { data: discData, error: discErr } = await supabaseClient
+                .from('exam_discussions')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (discErr) throw discErr;
+
+            ALL_BATCHES = {};
+            discData.forEach(row => {
+                const batchId = row.exam_batch_id;
+                if (!ALL_BATCHES[batchId]) {
+                    ALL_BATCHES[batchId] = {
+                        id: batchId,
+                        title: row.exam_title,
+                        subject: row.subject,
+                        institution: row.institution || 'Federal University',
+                        level: row.level || '100',
+                        createdAt: row.created_at,
+                        totalQuestions: 0
+                    };
+                }
+                ALL_BATCHES[batchId].totalQuestions++;
+            });
+
+            // Fetch schedules
+            const { data: schedData, error: schedErr } = await supabaseClient
+                .from('exam_discussion_schedules')
+                .select('*')
+                .order('start_time', { ascending: true });
+            
+            if (schedErr && schedErr.code !== '42P01') { 
+                // Ignore missing table error initially if they haven't run migration
+                console.error(schedErr);
+            }
+            ALL_SCHEDULES = schedData || [];
+
+            renderGrid();
+        } catch(err) {
+            console.error(err);
+            grid.innerHTML = `<div class="preview-empty" style="grid-column: 1 / -1;"><h4>Error Loading Data</h4><p>${err.message}</p></div>`;
+        }
+    }
+
+    function renderGrid() {
+        const batches = Object.values(ALL_BATCHES).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        if(batches.length === 0) {
+            grid.innerHTML = `<div class="preview-empty" style="grid-column: 1 / -1;"><h4>No discussions found</h4><p>Create a discussion batch first in the Content Creation studio.</p></div>`;
+            return;
+        }
+
+        const now = Date.now();
+
+        grid.innerHTML = batches.map(batch => {
+            // Find schedules for this batch
+            const batchSchedules = ALL_SCHEDULES.filter(s => s.exam_batch_id === batch.id);
+            const durationMs = batch.totalQuestions * 90 * 1000;
+
+            let scheduleHtml = '';
+            if (batchSchedules.length === 0) {
+                scheduleHtml = `<div class="sc-time-item ended" style="justify-content:center;">No times scheduled yet</div>`;
+            } else {
+                scheduleHtml = batchSchedules.map(sc => {
+                    const st = new Date(sc.start_time).getTime();
+                    const en = st + durationMs;
+                    let statClass = 'upcoming';
+                    let statText = 'Upcoming';
+                    if (now >= st && now < en) { statClass = ''; statText = '🔴 Live Now'; }
+                    else if (now >= en) { statClass = 'ended'; statText = 'Ended'; }
+
+                    const fDate = new Date(st).toLocaleString([], { dateStyle:'short', timeStyle:'short' });
+                    return `
+                        <div class="sc-time-item ${statClass}">
+                            <span>${fDate}</span>
+                            <span>${statText}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            return `
+                <div class="schedule-card">
+                    <div class="sc-title">${batch.title}</div>
+                    <div class="sc-subject">${batch.subject} • ${batch.institution} (${batch.level}L)</div>
+                    <div class="sc-meta">
+                        <span>💬 ${batch.totalQuestions} Qs</span>
+                        <span>⏱️ ${batch.totalQuestions * 1.5} mins</span>
+                    </div>
+                    
+                    <div style="font-size: 0.8rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ad-muted); margin-bottom:8px; font-weight:700;">Scheduled Times</div>
+                    <div class="sc-times">
+                        ${scheduleHtml}
+                    </div>
+
+                    <button class="btn-secondary-gen open-modal-btn" data-id="${batch.id}" style="width:100%;">
+                        + Schedule New Time
+                    </button>
+                </div>
+            `;
+        }).join('');
+
+        document.querySelectorAll('.open-modal-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                targetBatchId = btn.getAttribute('data-id');
+                // Set default input to current time rounded up to next 10 min
+                const d = new Date();
+                d.setMinutes(Math.ceil(d.getMinutes() / 10) * 10);
+                d.setSeconds(0); d.setMilliseconds(0);
+                const iso = new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
+                dtInput.value = iso;
+                modal.classList.add('active');
+            });
+        });
+    }
+
+    document.getElementById('btn-cancel-schedule').addEventListener('click', () => {
+        modal.classList.remove('active');
+        targetBatchId = null;
+    });
+
+    document.getElementById('btn-save-schedule').addEventListener('click', async () => {
+        if(!targetBatchId || !dtInput.value) return;
+
+        const saveBtn = document.getElementById('btn-save-schedule');
+        saveBtn.textContent = 'Saving...';
+        saveBtn.disabled = true;
+
+        try {
+            // ISO 8601 string from datetime-local is e.g. "2026-06-20T10:30"
+            // Convert to a valid Date object, then to ISO UTC
+            const localDate = new Date(dtInput.value);
+            
+            const { data, error } = await supabaseClient
+                .from('exam_discussion_schedules')
+                .insert([{
+                    exam_batch_id: targetBatchId,
+                    start_time: localDate.toISOString()
+                }])
+                .select();
+
+            if (error) {
+                if(error.code === '42P01') {
+                    showToast('Table exam_discussion_schedules missing! Run the SQL migration.', 'error');
+                } else {
+                    throw error;
+                }
+            } else {
+                showToast('Schedule successfully created!', 'success');
+                if (data && data.length > 0) {
+                    ALL_SCHEDULES.push(data[0]);
+                }
+                modal.classList.remove('active');
+                renderGrid();
+            }
+        } catch(err) {
+            console.error(err);
+            showToast('Error saving schedule', 'error');
+        } finally {
+            saveBtn.textContent = 'Save Schedule';
+            saveBtn.disabled = false;
+        }
+    });
+
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        document.getElementById('toast-container').appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Refresh every minute to update status
+    setInterval(renderGrid, 60000);
+    loadData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exam Trivia Creator · UniPrep Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin_dashboard.css"/>
+</head>
+<body>
+
+  <div id="auth-gate" class="auth-gate" style="display:none">
+    <div class="auth-gate-card">
+      <h2>🔐 Admin Required</h2>
+      <p>You must be logged in to access the Content Creator.</p>
+      <a href="admin_dashboard.html">Go to Admin Login</a>
+    </div>
+  </div>
+
+  <div class="studio-bg"><div class="studio-bg-grid"></div></div>
+
+  <div class="studio-shell">
+    <header class="studio-topbar">
+      <div class="studio-topbar-left">
+        <a href="admin_dashboard.html" class="studio-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </a>
+        <div class="studio-brand">
+          <div class="studio-brand-icon" style="background:linear-gradient(135deg,#0891b2,#06b6d4)"></div>
+          <div class="studio-brand-text">
+            <h1>Exam Trivia Creator</h1>
+            <p>Trivia Challenge Builder — UniPrep Admin</p>
+          </div>
+        </div>
+      </div>
+      <span class="studio-badge" style="background:rgba(6,182,212,0.12);border-color:rgba(6,182,212,0.25);color:#22d3ee;">🧩 Trivia</span>
+    </header>
+
+    <main class="studio-main">
+      <div class="studio-hero">
+        <h2>Build Exam Trivia Challenges</h2>
+        <p>Create fast-paced trivia questions with scoring rules and configurable timers per round.</p>
+        <div class="studio-hero-meta">
+          <span class="hero-pill">Timed rounds</span>
+          <span class="hero-pill">+/– Scoring</span>
+          <span class="hero-pill">Configurable rounds</span>
+        </div>
+      </div>
+
+      <div class="studio-grid-layout">
+        <div class="studio-panel">
+          <div class="panel-header">
+            <h3>Configuration</h3>
+            <span>Step 1 — Define trivia</span>
+          </div>
+          <div class="panel-body">
+            <form id="exam-gen-form" autocomplete="off">
+              <div class="form-section">
+                <div class="form-section-title">Trivia Details</div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="exam-title">Trivia Title</label>
+                    <input type="text" id="exam-title" placeholder="e.g. BIO101 Speed Trivia"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="subject-select">Course Code</label>
+                    <input type="text" id="subject-select" placeholder="e.g. BIO101"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="timer-secs">Timer <span class="hint">(seconds per question)</span></label>
+                    <input type="number" id="timer-secs" min="5" max="120" value="30"/>
+                  </div>
+                  <div class="form-field">
+                    <label for="points-per-q">Points per Correct Answer</label>
+                    <input type="number" id="points-per-q" min="1" max="100" value="10"/>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label for="penalty">Penalty <span class="hint">(wrong answer, 0 = no penalty)</span></label>
+                    <input type="number" id="penalty" min="0" max="50" value="2"/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title">Generation Mode</div>
+                <div class="form-field">
+                  <label for="ai-prompt" id="ai-prompt-label">AI Prompt <span class="hint">(topic, syllabus, style)</span></label>
+                  <textarea id="ai-prompt" placeholder="e.g. Generate trivia questions covering the specified topics..."></textarea>
+                </div>
+                <div class="mode-toggle">
+                  <button type="button" class="mode-btn active" id="mode-auto" data-mode="auto">✨ Auto (AI Generate)</button>
+                  <button type="button" class="mode-btn" id="mode-manual" data-mode="manual">✍️ Manual (Admin Paste)</button>
+                </div>
+
+                <div id="auto-section" class="mode-section">
+                  <div class="form-field" id="count-wrap">
+                    <label for="question-count">Number of Items to Generate</label>
+                    <div class="range-wrap">
+                      <input type="range" id="question-count" min="5" max="60" value="10" step="1"/>
+                      <span class="range-value" id="question-count-display">10</span>
+                    </div>
+                  </div>
+                  <div class="form-section-title" style="margin-top:20px;">AI Model</div>
+                  <div class="model-grid" id="model-grid">
+                    <button type="button" class="model-card active" data-model="mistral-large-latest">
+                      <div class="model-name">Mistral Large</div>
+                      <div class="model-desc">Best reasoning & quality</div>
+                      <span class="model-tag">Recommended</span>
+                    </button>
+                    <button type="button" class="model-card" data-model="mistral-small-latest">
+                      <div class="model-name">Mistral Small</div>
+                      <div class="model-desc">Fast bulk generation</div>
+                      <span class="model-tag">Fast</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div id="manual-section" class="mode-section hidden">
+                  <div class="form-field">
+                    <label for="manual-questions">Questions + Options <span class="hint">(numbered blocks)</span></label>
+                    <textarea id="manual-questions" rows="14" placeholder="1) What is the powerhouse of the cell?
+A) Nucleus
+B) Ribosome
+C) Mitochondria
+D) Golgi Apparatus
+Answer: C
+
+2) How many chambers does the human heart have?
+A) 2
+B) 3
+C) 4
+D) 6
+Answer: C"></textarea>
+                    <div class="manual-question-count hidden" id="manual-count"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title">Difficulty</div>
+                <div class="form-field">
+                  <div class="difficulty-chips" id="difficulty-chips">
+                    <button type="button" class="diff-chip" data-diff="easy">Easy</button>
+                    <button type="button" class="diff-chip active" data-diff="medium">Medium</button>
+                    <button type="button" class="diff-chip" data-diff="hard">Hard</button>
+                    <button type="button" class="diff-chip" data-diff="mixed">Mixed</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="gen-loading" id="gen-loading">
+                <div class="gen-spinner"></div>
+                <div class="gen-loading-text" id="gen-loading-text">Processing...</div>
+              </div>
+
+              <div class="action-bar">
+                <button type="button" class="btn-primary-gen" id="btn-generate">🧩 Preview Trivia</button>
+                <button type="button" class="btn-secondary-gen" id="btn-clear">Clear</button>
+                <button type="button" class="btn-send visible" id="btn-send">💾 Save Trivia</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="studio-panel">
+          <div class="panel-header">
+            <h3>Live Preview</h3>
+            <span id="preview-status">Awaiting input</span>
+          </div>
+          <div class="panel-body">
+            <div class="preview-stats hidden" id="preview-stats"></div>
+            <div class="panel-body scrollable preview-list" id="preview-list">
+              <div class="preview-empty">
+                <div class="icon">🧩</div>
+                <h4>Preview your trivia set</h4>
+                <p>Paste your trivia questions on the left, then click Preview Trivia.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="admin_creation.js"></script>
+  <script>
+    checkAdminAuth();
+    initCreationPage({
+      type: 'exam_trivia',
+      storageKey: 'up_exam_trivia_questions',
+      pageTitle: 'Exam Trivia'
+    });
+  </script>
+</body>
+</html>

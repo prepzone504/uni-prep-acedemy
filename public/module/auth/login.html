@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <script>
+    (function () {
+      if (window._initialLoaderAdded) return; window._initialLoaderAdded = true;
+      document.documentElement.style.backgroundColor = '#060d1f';
+      var l = document.createElement('div');
+      l.id = 'global-initial-loader';
+      l.style.cssText = 'position:fixed;inset:0;background:#060d1f;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;';
+      l.innerHTML = '<style>@keyframes spa-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes spa-glow-pulse{0%,100%{box-shadow:0 0 15px rgba(6,182,212,0.4),inset 0 0 10px rgba(37,99,235,0.4)}50%{box-shadow:0 0 30px rgba(6,182,212,0.8),inset 0 0 20px rgba(37,99,235,0.8)}}.spa-spinner{width:70px;height:70px;border:4px solid rgba(255,255,255,0.1);border-top-color:#06b6d4;border-right-color:#3b82f6;border-radius:50%;animation:spa-spin 1s linear infinite,spa-glow-pulse 2s ease-in-out infinite;margin-bottom:24px;position:relative}.spa-spinner::after{content:"";position:absolute;top:-4px;left:-4px;right:-4px;bottom:-4px;border-radius:50%;border:4px solid transparent;border-bottom-color:rgba(6,182,212,0.5);animation:spa-spin 1.5s cubic-bezier(0.68,-0.55,0.265,1.55) infinite reverse}.spa-loading-text{font-family:"Outfit",sans-serif;font-size:15px;font-weight:700;letter-spacing:4px;text-transform:uppercase;background:linear-gradient(135deg,#fff,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:spa-pulse-text 1.5s ease-in-out infinite}@keyframes spa-pulse-text{0%,100%{opacity:0.6;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}</style><div class="spa-spinner"></div><div class="spa-loading-text">Loading</div>';
+      document.documentElement.appendChild(l);
+      window.addEventListener('load', function () {
+        l.style.opacity = '0';
+        setTimeout(function () { if (l.parentNode) l.remove(); }, 500);
+      });
+    })();
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Log in to UniPrep – Nigeria's #1 University Exam Preparation Platform." />
+  <title>Login · UniPrep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --blue-200: #bfdbfe;
+      --blue-300: #93c5fd;
+      --blue-400: #60a5fa;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --accent: #06b6d4;
+      --bg: #060d1f;
+      --border: rgba(96, 165, 250, 0.22);
+      --text: #f0f6ff;
+      --muted: rgba(191, 219, 254, 0.7);
+      --t: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --r: 14px;
+      --rp: 999px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── FIXED BG ── */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 60% at 15% 20%, rgba(29, 78, 216, 0.4) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 50% at 85% 80%, rgba(6, 182, 212, 0.2) 0%, transparent 60%),
+        linear-gradient(145deg, #060d1f 0%, #0b1640 60%, #060d1f 100%);
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.28;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 600px;
+      height: 600px;
+      top: -180px;
+      left: -180px;
+      background: radial-gradient(circle, #1d4ed8, transparent);
+      animation: drift 14s ease-in-out infinite alternate;
+    }
+
+    .orb-2 {
+      width: 450px;
+      height: 450px;
+      bottom: -120px;
+      right: 20%;
+      background: radial-gradient(circle, #06b6d4, transparent);
+      animation: drift 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes drift {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(40px, 40px);
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       MOBILE LAYOUT  (default / mobile-first)
+    ══════════════════════════════════════════ */
+    .desk-panel {
+      display: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── MOBILE HERO HEADER (shows on mobile, hidden on desktop) ── */
+    .mobile-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 48px 24px 36px;
+      background: linear-gradient(160deg, rgba(29, 78, 216, 0.3) 0%, rgba(6, 182, 212, 0.1) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mobile-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 80px;
+      background: rgba(37, 99, 235, 0.25);
+      filter: blur(40px);
+      border-radius: 50%;
+    }
+
+    .mob-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      text-decoration: none;
+    }
+
+    .mob-brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue-600), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.7);
+    }
+
+    .mob-brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .mob-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .mob-title .g1 {
+      background: linear-gradient(135deg, #fff, #93c5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .mob-title .g2 {
+      background: linear-gradient(135deg, #60a5fa, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .mob-sub {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 300px;
+    }
+
+    /* ── FORM AREA ── */
+    .form-area {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 20px 40px;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 420px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: var(--rp);
+      background: rgba(37, 99, 235, 0.18);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      color: var(--blue-300);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .form-tag .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+      animation: blink 2s ease infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    .form-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .form-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.55;
+    }
+
+    .form-sub a {
+      color: var(--blue-400);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .form-sub a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── FORM GROUPS ── */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .lbl {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--blue-200);
+      margin-bottom: 8px;
+      letter-spacing: 0.2px;
+    }
+
+    .lbl a {
+      font-size: 12px;
+      color: var(--blue-400);
+      text-decoration: none;
+    }
+
+    .lbl a:hover {
+      text-decoration: underline;
+    }
+
+    .iw {
+      position: relative;
+    }
+
+    .iw svg.ico {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 17px;
+      height: 17px;
+      color: var(--blue-400);
+      pointer-events: none;
+    }
+
+    input[type=email],
+    input[type=password],
+    input[type=text] {
+      width: 100%;
+      padding: 15px 48px 15px 44px;
+      border-radius: var(--r);
+      border: 1.5px solid var(--border);
+      background: rgba(8, 16, 45, 0.85);
+      color: var(--text);
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: var(--t);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    input::placeholder {
+      color: rgba(148, 163, 184, 0.4);
+    }
+
+    input:focus {
+      border-color: var(--blue-500);
+      background: rgba(37, 99, 235, 0.08);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    .eye-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--blue-400);
+      padding: 6px;
+      line-height: 0;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .eye-btn:hover {
+      color: var(--blue-300);
+    }
+
+    .remember-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .chk {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      border: 1.5px solid var(--border);
+      background: rgba(8, 16, 45, 0.85);
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: var(--t);
+      display: grid;
+      place-items: center;
+    }
+
+    .chk:checked {
+      background: var(--blue-600);
+      border-color: var(--blue-500);
+    }
+
+    .chk:checked::after {
+      content: '✓';
+      font-size: 12px;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .chk-label {
+      font-size: 13.5px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--r);
+      background: linear-gradient(135deg, var(--blue-700), var(--blue-600), var(--blue-500));
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: var(--t);
+      box-shadow: 0 6px 28px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.2px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(37, 99, 235, 0.65);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      bottom: 0;
+      width: 60%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: skewX(-20deg);
+    }
+
+    .btn-submit:hover::after {
+      animation: shimmer 0.6s ease forwards;
+    }
+
+    @keyframes shimmer {
+      to {
+        left: 150%;
+      }
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .social-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 13px 10px;
+      border-radius: var(--r);
+      border: 1.5px solid var(--border);
+      background: rgba(8, 16, 45, 0.7);
+      color: var(--text);
+      font-size: 13.5px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--t);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .social-btn:hover {
+      border-color: var(--blue-400);
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .social-btn:active {
+      transform: scale(0.98);
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .footer-note a {
+      color: var(--blue-400);
+      text-decoration: none;
+    }
+
+    /* ── SECURITY CHIP ── */
+    .security-chip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+      padding: 8px 16px;
+      border-radius: var(--rp);
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    .security-chip span {
+      color: var(--blue-300);
+      font-weight: 600;
+    }
+
+    /* ══════════════════════════════════════════
+       DESKTOP ENHANCEMENTS (≥ 900px)
+    ══════════════════════════════════════════ */
+    @media (min-width: 900px) {
+      .mobile-hero {
+        padding: 60px 24px 40px;
+      }
+
+      .mob-title {
+        font-size: 36px;
+      }
+
+      .mob-sub {
+        font-size: 16px;
+        max-width: 400px;
+      }
+
+      .form-area {
+        padding: 60px 40px 100px;
+      }
+
+      .form-card {
+        max-width: 460px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="bg-layer"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="page">
+
+    <!-- ══ MOBILE HERO HEADER ══ -->
+    <div class="mobile-hero" aria-hidden="true">
+      <a href="../index.html" class="mob-brand">
+        <div class="mob-brand-icon">🎓</div>
+        <span class="mob-brand-name">UniPrep</span>
+      </a>
+      <h1 class="mob-title">
+        <span class="g1">Welcome</span> <span class="g2">Back</span>
+      </h1>
+      <p class="mob-sub">Pick up where you left off. Your progress awaits.</p>
+    </div>
+
+    <!-- ══ FORM PANEL ══ -->
+    <main class="form-area" aria-label="Login form">
+      <div class="form-card">
+
+        <div class="form-tag"><span class="dot"></span> Secure Login</div>
+        <h2 class="form-title">Sign in to your account</h2>
+        <p class="form-sub">Don't have an account? <a href="sign_up.html" id="go-signup">Create one free →</a></p>
+
+        <form id="login-form" novalidate autocomplete="on" onsubmit="handleLogin(event)">
+
+          <div class="form-group">
+            <label class="lbl" for="email">Email Address</label>
+            <div class="iw">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              <input type="email" id="email" name="email" placeholder="yourname@email.com" autocomplete="email" required
+                style="padding-right:18px;" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="lbl" for="password">
+              Password
+              <a href="#" id="forgot-link">Forgot password?</a>
+            </label>
+            <div class="iw">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <input type="password" id="password" name="password" placeholder="Enter your password"
+                autocomplete="current-password" required />
+              <button type="button" class="eye-btn" id="eye-toggle" aria-label="Show/hide password">
+                <svg id="eye-on" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <svg id="eye-off" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                  <path
+                    d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group remember-row">
+            <input type="checkbox" id="remember" class="chk" />
+            <label for="remember" class="chk-label">Keep me signed in</label>
+          </div>
+
+          <button type="submit" class="btn-submit" id="login-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+              <polyline points="10 17 15 12 10 7" />
+              <line x1="15" y1="12" x2="3" y2="12" />
+            </svg>
+            Sign In to UniPrep
+          </button>
+        </form>
+
+        <div class="divider">or continue with</div>
+
+        <div class="social-row">
+          <button class="social-btn" id="google-btn" type="button" aria-label="Sign in with Google">
+            <svg width="17" height="17" viewBox="0 0 24 24">
+              <path fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+              <path fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
+              <path fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+            </svg>
+            Google
+          </button>
+          <button class="social-btn" id="guest-btn" type="button" aria-label="Sign in as Guest"
+            onclick="window.location.href='../dashboard/dashboard.html'">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            Guest
+          </button>
+        </div>
+
+        <div class="security-chip">
+          🔒 <span>256-bit SSL</span> · Your data is always protected
+        </div>
+
+        <p class="footer-note">
+          By signing in you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>.
+        </p>
+      </div>
+    </main>
+
+  </div><!-- /.page -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* Password toggle */
+    const pwd = document.getElementById('password');
+    document.getElementById('eye-toggle').addEventListener('click', () => {
+      const show = pwd.type === 'password';
+      pwd.type = show ? 'text' : 'password';
+      document.getElementById('eye-on').style.display = show ? 'none' : '';
+      document.getElementById('eye-off').style.display = show ? '' : 'none';
+    });
+
+    /* Forgot → OTP */
+    document.getElementById('forgot-link').addEventListener('click', e => {
+      e.preventDefault();
+      window.location.href = 'otp.html?mode=reset';
+    });
+
+    /* Login submit */
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const pwd = document.getElementById('password').value;
+      const btn = document.getElementById('login-btn');
+      
+      btn.innerHTML = '<span class="spin-ring"></span> Signing in…';
+      btn.disabled = true;
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: pwd,
+        });
+
+        if (error) {
+          alert('Login failed: ' + error.message);
+          btn.innerHTML = 'Sign In to UniPrep';
+          btn.disabled = false;
+        } else {
+          btn.innerHTML = '✅ Success! Redirecting…';
+          btn.style.background = 'linear-gradient(135deg,#16a34a,#15803d)';
+          setTimeout(() => {
+            window.location.href = '../dashboard/dashboard.html';
+          }, 1000);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('An unexpected error occurred.');
+        btn.innerHTML = 'Sign In to UniPrep';
+        btn.disabled = false;
+      }
+    }
+
+    /* Social */
+    // Initialize Supabase
+    const SUPABASE_URL = 'https://ivbhpsqlnlundhotgonf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2Ymhwc3Fsbmx1bmRob3Rnb25mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MjUwMjEsImV4cCI6MjA5NzQwMTAyMX0.SnrfpFSv5-2YauC-3ca0pmfi1VM1ikdaeyTdaMBV-KQ';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.getElementById('google-btn').addEventListener('click', async () => {
+      try {
+        const redirectUrl = new URL('../dashboard/dashboard.html', window.location.href).href;
+        const { data, error } = await supabaseClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: redirectUrl
+          }
+        });
+        if (error) {
+          alert('Supabase Error: ' + error.message);
+        }
+      } catch (err) {
+        console.error('Supabase Auth Error:', err);
+        alert('Authentication failed. Check console for details.');
+      }
+    });
+  </script>
+  <style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .spin-ring {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+    }
+  </style>
+  <script src="../../js/router.js"></script>
+</body>
+
+</html>

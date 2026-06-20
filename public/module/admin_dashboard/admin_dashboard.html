@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="UniPrep Admin Panel — Manage content and track exam participation."/>
+  <title>Admin Panel · UniPrep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admin_dashboard.css"/>
+</head>
+<body>
+
+  <!-- ═══ LOGIN GATE ═══ -->
+  <div class="login-overlay active" id="login-overlay">
+    <div class="login-bg-canvas"><div class="login-bg-grid"></div></div>
+    <div class="login-card" id="login-card">
+      <div class="login-shield">🛡️</div>
+      <h1 class="login-title">Admin Access</h1>
+      <p class="login-subtitle">Enter your credentials to access the admin panel.</p>
+      <form id="admin-login-form" autocomplete="off">
+        <div class="login-field">
+          <label for="admin-email">Email Address</label>
+          <input type="email" id="admin-email" placeholder="Enter authorized email" required/>
+        </div>
+        <div class="login-field">
+          <label for="admin-username">Username</label>
+          <input type="text" id="admin-username" placeholder="Enter username" required/>
+        </div>
+        <div class="login-field">
+          <label for="admin-password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="admin-password" placeholder="Enter password" required/>
+            <button type="button" class="toggle-pw" id="toggle-pw">👁️</button>
+          </div>
+        </div>
+        <p class="login-error" id="login-error"></p>
+        <button type="submit" class="login-btn">
+          <span>Authenticate</span><span class="btn-arrow">→</span>
+        </button>
+      </form>
+      <a href="../dashboard/dashboard.html" class="login-back">← Back to Dashboard</a>
+    </div>
+  </div>
+
+  <!-- ═══ ADMIN PANEL ═══ -->
+  <div class="admin-wrapper" id="admin-wrapper">
+
+    <!-- Topbar -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <a href="../dashboard/dashboard.html" class="admin-back-btn" title="Back to Dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </a>
+        <div class="admin-topbar-brand">
+          <div class="admin-topbar-logo">U</div>
+          <span class="admin-topbar-title">🛡️ Admin Panel</span>
+        </div>
+      </div>
+      <div class="admin-topbar-right">
+        <span class="admin-topbar-user" id="admin-user-label">Admin</span>
+        <button class="admin-logout-btn" id="admin-logout-btn">🚪 Logout</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="admin-page-header">
+        <h2 class="admin-page-title">🛡️ Admin Section</h2>
+        <p class="admin-page-sub">Manage content and monitor student exam participation. Restricted to Admins only.</p>
+      </div>
+
+      <!-- Sub-Tabs -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="admin-dashboard">📊 Dashboard</button>
+        <button class="admin-tab" data-tab="admin-studio">✨ Content Creation</button>
+        <button class="admin-tab" data-tab="admin-scheduler">🗓️ Scheduler</button>
+      </div>
+
+      <!-- ── TAB: DASHBOARD ── -->
+      <div class="admin-tab-panel active" id="admin-dashboard">
+
+        <!-- Stats -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card" style="--a-color:#3b82f6;">
+            <div class="admin-stat-icon" style="background:rgba(59,130,246,0.12);color:#60a5fa;">👥</div>
+            <div class="admin-stat-body">
+              <span class="admin-stat-num" id="admin-stat-students">0</span>
+              <span class="admin-stat-label">Total Students</span>
+            </div>
+          </div>
+          <div class="admin-stat-card" style="--a-color:#a855f7;">
+            <div class="admin-stat-icon" style="background:rgba(168,85,247,0.12);color:#a855f7;">📋</div>
+            <div class="admin-stat-body">
+              <span class="admin-stat-num" id="admin-stat-exams">0</span>
+              <span class="admin-stat-label">Exams Attempted</span>
+            </div>
+          </div>
+          <div class="admin-stat-card" style="--a-color:#22c55e;">
+            <div class="admin-stat-icon" style="background:rgba(34,197,94,0.12);color:#22c55e;">❓</div>
+            <div class="admin-stat-body">
+              <span class="admin-stat-num" id="admin-stat-questions">0</span>
+              <span class="admin-stat-label">Total Questions</span>
+            </div>
+          </div>
+          <div class="admin-stat-card" style="--a-color:#f59e0b;">
+            <div class="admin-stat-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;">🃏</div>
+            <div class="admin-stat-body">
+              <span class="admin-stat-num" id="admin-stat-flashcards">0</span>
+              <span class="admin-stat-label">Flash Cards</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Participation Table -->
+        <div class="admin-recent-card">
+          <div class="card-header">
+            <h3 class="card-title">📊 Exam Participation Overview</h3>
+            <span class="card-badge" style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);color:#22c55e;">Live Data</span>
+          </div>
+          <div class="table-scroll">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Exam Type</th>
+                  <th>Course</th>
+                  <th>Score</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="admin-submissions-list">
+                <tr>
+                  <td colspan="6" style="text-align:center; padding:20px; color:var(--muted);">Loading live data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: CONTENT CREATION ── -->
+      <div class="admin-tab-panel" id="admin-studio">
+        <div class="studio-intro">
+          <h3 class="studio-intro-title">Content Creation</h3>
+          <p class="studio-intro-desc">Add questions to Exam Prep, Exam Discussion, Exam Trivia, and Flashcard modules. Select a module below to begin.</p>
+        </div>
+        <div class="studio-cards-grid">
+
+          <a href="exam_prep_creation.html" class="studio-card studio-card-exam">
+            <div class="studio-card-glow"></div>
+            <div class="studio-card-icon">📝</div>
+            <div class="studio-card-body">
+              <h4 class="studio-card-title">Exam Prep</h4>
+              <p class="studio-card-desc">Create CBT-style exam question banks. Set options, difficulty, duration and deploy to students.</p>
+              <ul class="studio-card-features">
+                <li>Multiple choice (A–E)</li>
+                <li>Difficulty &amp; duration control</li>
+                <li>Manual paste or AI prompt</li>
+              </ul>
+            </div>
+            <span class="studio-card-cta">Open Creator <span>→</span></span>
+          </a>
+
+          <a href="exam_discuss_creation.html" class="studio-card studio-card-discuss">
+            <div class="studio-card-glow"></div>
+            <div class="studio-card-icon">💬</div>
+            <div class="studio-card-body">
+              <h4 class="studio-card-title">Exam Discussion</h4>
+              <p class="studio-card-desc">Build guided discussion rounds with timed questions and detailed explanations for the discussion module.</p>
+              <ul class="studio-card-features">
+                <li>Timed vote phases</li>
+                <li>Explanation per question</li>
+                <li>Topic &amp; subject tagging</li>
+              </ul>
+            </div>
+            <span class="studio-card-cta">Open Creator <span>→</span></span>
+          </a>
+
+          <a href="exam_trival_creation.html" class="studio-card studio-card-trivia">
+            <div class="studio-card-glow"></div>
+            <div class="studio-card-icon">🧩</div>
+            <div class="studio-card-body">
+              <h4 class="studio-card-title">Exam Trivia</h4>
+              <p class="studio-card-desc">Create fast-paced trivia challenges with scoring rules and configurable round counts.</p>
+              <ul class="studio-card-features">
+                <li>Timer &amp; scoring rules</li>
+                <li>Configurable rounds</li>
+                <li>Fun &amp; competitive format</li>
+              </ul>
+            </div>
+            <span class="studio-card-cta">Open Creator <span>→</span></span>
+          </a>
+
+          <a href="exam_flashcard_creation.html" class="studio-card studio-card-flash">
+            <div class="studio-card-glow"></div>
+            <div class="studio-card-icon">🃏</div>
+            <div class="studio-card-body">
+              <h4 class="studio-card-title">Flashcard</h4>
+              <p class="studio-card-desc">Create study decks with front/back card pairs. Package by subject and push to students for self-study.</p>
+              <ul class="studio-card-features">
+                <li>Deck name &amp; description</li>
+                <li>5–50 cards per deck</li>
+                <li>Subject-based organisation</li>
+              </ul>
+            </div>
+            <span class="studio-card-cta">Open Creator <span>→</span></span>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ── TAB: SCHEDULER ── -->
+      <div class="admin-tab-panel" id="admin-scheduler">
+        <div class="studio-intro">
+          <h3 class="studio-intro-title">Event Scheduler</h3>
+          <p class="studio-intro-desc">Manage start times and schedules for live exam discussions.</p>
+        </div>
+        <div class="studio-cards-grid">
+          <a href="exam_discussion_timing.html" class="studio-card studio-card-discuss">
+            <div class="studio-card-glow"></div>
+            <div class="studio-card-icon">⏳</div>
+            <div class="studio-card-body">
+              <h4 class="studio-card-title">Discussion Timing</h4>
+              <p class="studio-card-desc">Schedule active periods for Exam Discussions. Allow students to join at specific times.</p>
+              <ul class="studio-card-features">
+                <li>Multiple start times per batch</li>
+                <li>Future scheduling</li>
+                <li>Live status tracking</li>
+              </ul>
+            </div>
+            <span class="studio-card-cta">Open Scheduler <span>→</span></span>
+          </a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  (function(){
+    var CREDS = { username:'admin', password:'admin' };
+    var ALLOWED_EMAILS = [
+      'prepzone504@gmail.com',
+      'ojehomonkpohiozoje@gmail.com',
+      'professormicheal504@gmail.com'
+    ];
+    var overlay   = document.getElementById('login-overlay');
+    var wrapper   = document.getElementById('admin-wrapper');
+    var loginCard = document.getElementById('login-card');
+    var loginErr  = document.getElementById('login-error');
+    var togglePw  = document.getElementById('toggle-pw');
+    var pwInput   = document.getElementById('admin-password');
+
+    // Password toggle
+    if(togglePw && pwInput) {
+      togglePw.addEventListener('click', function(){
+        var isPass = pwInput.type === 'password';
+        pwInput.type = isPass ? 'text' : 'password';
+        togglePw.textContent = isPass ? '🙈' : '👁️';
+      });
+    }
+
+    // Initialize Supabase First
+    const SUPABASE_URL = 'https://ivbhpsqlnlundhotgonf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2Ymhwc3Fsbmx1bmRob3Rnb25mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MjUwMjEsImV4cCI6MjA5NzQwMTAyMX0.SnrfpFSv5-2YauC-3ca0pmfi1VM1ikdaeyTdaMBV-KQ';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadAdminData() {
+      if(!supabaseClient) return;
+      try {
+        // 1. Total Students
+        const { count: studentCount } = await supabaseClient
+          .from('user_profiles')
+          .select('*', { count: 'exact', head: true });
+        document.getElementById('admin-stat-students').textContent = studentCount || 0;
+
+        // 2. Exams Attempted
+        const { count: examCount } = await supabaseClient
+          .from('exam_results')
+          .select('*', { count: 'exact', head: true });
+        document.getElementById('admin-stat-exams').textContent = examCount || 0;
+
+        // 3. Total Questions
+        const { count: qCount } = await supabaseClient
+          .from('exam_prep_questions')
+          .select('*', { count: 'exact', head: true });
+        document.getElementById('admin-stat-questions').textContent = qCount || 0;
+
+        // 4. Flash Cards
+        document.getElementById('admin-stat-flashcards').textContent = '0';
+
+        // 5. Fetch recent exams and profiles
+        const { data: results, error: resErr } = await supabaseClient
+          .from('exam_results')
+          .select('*')
+          .order('submitted_at', { ascending: false })
+          .limit(15);
+          
+        if(resErr) throw resErr;
+
+        const { data: profiles } = await supabaseClient
+          .from('user_profiles')
+          .select('id, full_name');
+          
+        const profileMap = {};
+        if(profiles){
+          profiles.forEach(p => { profileMap[p.id] = p.full_name; });
+        }
+
+        const tbody = document.getElementById('admin-submissions-list');
+        tbody.innerHTML = '';
+
+        if(!results || results.length === 0){
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--muted);">No exams taken yet.</td></tr>';
+          return;
+        }
+
+        results.forEach(row => {
+          let studentName = profileMap[row.student_id];
+          if(!studentName) {
+            if(row.student_id && row.student_id.length < 30) {
+                studentName = row.student_id; // old string name fallback
+            } else {
+                studentName = 'Unknown Student';
+            }
+          }
+          
+          const pct = Math.round((row.correct_answers / row.total_questions) * 100) || 0;
+          const status = pct >= 50 ? 'pass' : 'fail';
+          const statusText = pct >= 50 ? 'Pass' : 'Fail';
+          const scoreClass = pct >= 70 ? 'good' : (pct >= 50 ? 'mid' : 'bad');
+          
+          const diffMs = Date.now() - new Date(row.submitted_at).getTime();
+          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+          const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+          const diffMins = Math.floor(diffMs / (1000 * 60));
+          let timeStr = 'Just now';
+          if(diffDays > 1) timeStr = diffDays + ' days ago';
+          else if(diffDays === 1) timeStr = 'Yesterday';
+          else if(diffHours > 0) timeStr = diffHours + ' hours ago';
+          else if(diffMins > 0) timeStr = diffMins + ' mins ago';
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td data-label="Student"><strong>${studentName}</strong></td>
+            <td data-label="Exam Type">📝 Exam Prep</td>
+            <td data-label="Course">${row.course_title || 'Unknown'} (${row.course_code || 'N/A'})</td>
+            <td data-label="Score"><span class="tbl-score ${scoreClass}">${pct}%</span></td>
+            <td data-label="Date"><span class="tbl-time">${timeStr}</span></td>
+            <td data-label="Status"><span class="tbl-badge ${status}">${statusText}</span></td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        console.error('Error loading admin data', err);
+      }
+    }
+
+    function showPanel(){
+      overlay.classList.remove('active');
+      wrapper.classList.add('active');
+      loadAdminData();
+    }
+
+    // Already logged in?
+    if(sessionStorage.getItem('up_admin_auth') === '1') showPanel();
+
+    // Login form
+    document.getElementById('admin-login-form').addEventListener('submit', async function(e){
+      e.preventDefault();
+      var email = document.getElementById('admin-email').value.trim().toLowerCase();
+      var user = document.getElementById('admin-username').value.trim();
+      var pass = document.getElementById('admin-password').value;
+      var btn = document.querySelector('.login-btn');
+
+      if(user === CREDS.username && pass === CREDS.password){
+        if(ALLOWED_EMAILS.indexOf(email) !== -1){
+          try {
+            btn.disabled = true;
+            btn.innerHTML = '<span>Verifying...</span>';
+            const { data: { session }, error } = await supabaseClient.auth.getSession();
+            
+            if (error || !session || !session.user) {
+              loginErr.textContent = '❌ Unauthorized. You must be logged in to the app first.';
+              loginCard.classList.add('shake');
+              setTimeout(function(){ loginCard.classList.remove('shake'); }, 600);
+            } else if (session.user.email.toLowerCase() !== email) {
+              loginErr.textContent = '❌ Unauthorized. Logged-in email does not match.';
+              loginCard.classList.add('shake');
+              setTimeout(function(){ loginCard.classList.remove('shake'); }, 600);
+            } else {
+              sessionStorage.setItem('up_admin_auth','1');
+              showPanel();
+            }
+          } catch (err) {
+            loginErr.textContent = '❌ Verification error. Try again.';
+          } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span>Authenticate</span><span class="btn-arrow">→</span>';
+          }
+        } else {
+          loginErr.textContent = '❌ Unauthorized Access. Your email is not permitted.';
+          loginCard.classList.add('shake');
+          setTimeout(function(){ loginCard.classList.remove('shake'); }, 600);
+        }
+      } else {
+        loginErr.textContent = '❌ Invalid username or password.';
+        loginCard.classList.add('shake');
+        setTimeout(function(){ loginCard.classList.remove('shake'); }, 600);
+      }
+    });
+
+    // Logout
+    document.getElementById('admin-logout-btn').addEventListener('click', function(){
+      sessionStorage.removeItem('up_admin_auth');
+      overlay.classList.add('active');
+      wrapper.classList.remove('active');
+    });
+
+    // Tabs
+    var tabs = document.querySelectorAll('.admin-tab');
+    var panels = document.querySelectorAll('.admin-tab-panel');
+    tabs.forEach(function(tab){
+      tab.addEventListener('click', function(){
+        var target = tab.getAttribute('data-tab');
+        tabs.forEach(function(t){ t.classList.remove('active'); });
+        panels.forEach(function(p){ p.classList.remove('active'); });
+        tab.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    // Toast helper
+    window.showToast = function(msg, type){
+      var tc = document.getElementById('toast-container');
+      var t = document.createElement('div');
+      t.className = 'toast toast-' + (type||'info');
+      t.textContent = msg;
+      tc.appendChild(t);
+      setTimeout(function(){ t.remove(); }, 3500);
+    };
+  })();
+  </script>
+</body>
+</html>
